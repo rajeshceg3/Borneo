@@ -14,19 +14,19 @@
 
 # 1. FOUNDATIONAL SETUP
 
-## 1.1 Repository Initialization 🔴
+## 1.1 Repository Initialization 🔴 ✅ DONE
 
-- [ ] Create mono-repo:
+- [x] Create mono-repo:
 
 borneo-app/ ├── frontend/ ├── backend/ ├── infra/ ├── docs/ └── scripts/
 
-- [ ] Initialize Git repository
-- [ ] Configure branching strategy:
+- [x] Initialize Git repository
+- [x] Configure branching strategy:
 - main → production
 - develop → staging
 - feature/* → development
 
-- [ ] Setup commit conventions:
+- [x] Setup commit conventions:
 - feat:
 - fix:
 - chore:
@@ -34,33 +34,33 @@ borneo-app/ ├── frontend/ ├── backend/ ├── infra/ ├── do
 
 ---
 
-## 1.2 Tooling & Frameworks 🔴
+## 1.2 Tooling & Frameworks 🔴 ✅ DONE
 
 ### Frontend
-- [ ] Setup Vite (fast build tool)
-- [ ] Install dependencies:
+- [x] Setup Vite (fast build tool)
+- [x] Install dependencies:
 
 leaflet gsap zustand (state management)
 
 ### Backend
-- [ ] Setup Node.js (LTS)
-- [ ] Install:
+- [x] Setup Node.js (LTS)
+- [x] Install:
 
 express cors dotenv
 
 ### Dev Tools
-- [ ] ESLint + Prettier
-- [ ] Husky (pre-commit hooks)
+- [x] ESLint + Prettier
+- [x] Husky (pre-commit hooks)
 
 ---
 
-## 1.3 Environment Configuration
+## 1.3 Environment Configuration ✅ DONE
 
-- [ ] Create `.env` files:
+- [x] Create `.env` files:
 
 MAP_TILE_URL= API_BASE_URL= NODE_ENV=
 
-- [ ] Setup environment configs:
+- [x] Setup environment configs:
 - dev
 - staging
 - production
