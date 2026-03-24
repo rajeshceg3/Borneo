@@ -84,17 +84,17 @@ Define:
 
 ### Frontend Modules
 
-- [ ] Map Engine (Leaflet wrapper)
+- [x] Map Engine (Leaflet wrapper)
 - [ ] Gesture Engine (swipe/tap detection)
 - [ ] Animation Engine (GSAP)
-- [ ] UI Layer (cards, overlays)
-- [ ] State Store (Zustand)
+- [x] UI Layer (cards, overlays)
+- [x] State Store (Zustand)
 
 ### Backend Modules
 
-- [ ] Attractions Service
-- [ ] Wildlife Service
-- [ ] Trails Service
+- [x] Attractions Service
+- [x] Wildlife Service
+- [x] Trails Service
 - [ ] Offline Packager
 
 ---
@@ -118,16 +118,16 @@ id name stops[] duration difficulty
 ## 2.4 API Contracts
 
 ### GET /attractions
-- returns all attractions
+- [x] returns all attractions
 
 ### GET /wildlife
-- returns animals
+- [x] returns animals
 
 ### GET /trails
-- returns guided trails
+- [x] returns guided trails
 
 ### GET /offline-pack
-- returns cached bundle
+- [x] returns cached bundle
 
 ---
 
@@ -139,18 +139,18 @@ id name stops[] duration difficulty
 
 ### Map Initialization
 
-- [ ] Create map container
-- [ ] Initialize Leaflet instance
-- [ ] Disable scroll zoom
-- [ ] Apply custom styling
+- [x] Create map container
+- [x] Initialize Leaflet instance
+- [x] Disable scroll zoom
+- [x] Apply custom styling
 
 ---
 
 ### Marker System
 
-- [ ] Create custom icons
-- [ ] Render markers dynamically
-- [ ] Attach click listeners
+- [x] Create custom icons
+- [x] Render markers dynamically
+- [x] Attach click listeners
 - [ ] Implement marker animation (pulse)
 
 ---
@@ -195,26 +195,26 @@ id name stops[] duration difficulty
 
 ### Server Setup
 
-- [ ] Initialize Express server
-- [ ] Setup routing structure
+- [x] Initialize Express server
+- [x] Setup routing structure
 
 ---
 
 ### Data Layer
 
-- [ ] Create JSON-based datastore (initial phase)
-- [ ] Load attractions data
-- [ ] Load wildlife data
-- [ ] Load trails data
+- [x] Create JSON-based datastore (initial phase)
+- [x] Load attractions data
+- [x] Load wildlife data
+- [x] Load trails data
 
 ---
 
 ### API Endpoints
 
-- [ ] Implement /attractions
-- [ ] Implement /wildlife
-- [ ] Implement /trails
-- [ ] Implement /offline-pack
+- [x] Implement /attractions
+- [x] Implement /wildlife
+- [x] Implement /trails
+- [x] Implement /offline-pack
 
 ---
 
@@ -307,7 +307,7 @@ id name stops[] duration difficulty
 ## Unit Tests
 
 - [ ] Test gesture detection
-- [ ] Test API responses
+- [x] Test API responses
 
 ---
 
@@ -427,5 +427,15 @@ The system is COMPLETE only when:
 - [ ] Zero critical bugs in E2E tests
 
 ---
+
+# 11. SESSION LOG
+
+## 2026-03-24
+
+- Implemented Leaflet map initialization with no-scroll zoom behavior and rainforest-themed custom styling.
+- Added dynamic attraction marker rendering with click handlers and live attraction details card updates.
+- Introduced frontend attraction data module and Zustand vanilla store for selected attraction state.
+- Implemented backend JSON datastore and routing for `/attractions`, `/wildlife`, `/trails`, and `/offline-pack`.
+- Expanded automated tests to validate API responses and attraction dataset integrity.
 
 # END OF DOCUMENT

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "danum-valley",
+    "name": "Danum Valley",
+    "coordinates": [4.9778, 117.7989],
+    "description": "Pristine ancient rainforest with rich biodiversity.",
+    "images": ["/images/danum-valley-1.jpg"],
+    "type": "forest"
+  },
+  {
+    "id": "kinabatangan-river",
+    "name": "Kinabatangan River",
+    "coordinates": [5.4819, 117.8535],
+    "description": "Best wildlife spotting corridor in Borneo.",
+    "images": ["/images/kinabatangan-river-1.jpg"],
+    "type": "river"
+  },
+  {
+    "id": "gunung-mulu",
+    "name": "Gunung Mulu National Park",
+    "coordinates": [4.0412, 114.8092],
+    "description": "UNESCO site known for enormous cave systems.",
+    "images": ["/images/gunung-mulu-1.jpg"],
+    "type": "cave"
+  },
+  {
+    "id": "bako-national-park",
+    "name": "Bako National Park",
+    "coordinates": [1.7163, 110.4489],
+    "description": "Home to proboscis monkeys and coastal rainforest trails.",
+    "images": ["/images/bako-national-park-1.jpg"],
+    "type": "forest"
+  },
+  {
+    "id": "sepilok-orangutan-sanctuary",
+    "name": "Sepilok Orangutan Sanctuary",
+    "coordinates": [5.8715, 117.9495],
+    "description": "Rehabilitation center for rescued orangutans.",
+    "images": ["/images/sepilok-orangutan-sanctuary-1.jpg"],
+    "type": "forest"
+  }
+]

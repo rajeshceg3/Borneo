@@ -1,0 +1,16 @@
+[
+  {
+    "id": "canopy-discovery-loop",
+    "name": "Canopy Discovery Loop",
+    "stops": ["Danum Valley", "Kinabatangan River"],
+    "duration": "1 day",
+    "difficulty": "moderate"
+  },
+  {
+    "id": "caves-and-rivers-expedition",
+    "name": "Caves and Rivers Expedition",
+    "stops": ["Gunung Mulu National Park", "Bako National Park"],
+    "duration": "2 days",
+    "difficulty": "challenging"
+  }
+]
