@@ -1,0 +1,20 @@
+[
+  {
+    "id": "orangutan",
+    "name": "Bornean Orangutan",
+    "species": "Pongo pygmaeus",
+    "habitat": "Lowland rainforest",
+    "best_time": "Early morning",
+    "facts": ["Critically endangered", "Highly intelligent and tool-using"],
+    "icon": "orangutan"
+  },
+  {
+    "id": "proboscis-monkey",
+    "name": "Proboscis Monkey",
+    "species": "Nasalis larvatus",
+    "habitat": "Mangroves and riverine forests",
+    "best_time": "Late afternoon",
+    "facts": ["Endemic to Borneo", "Excellent swimmers"],
+    "icon": "proboscis"
+  }
+]

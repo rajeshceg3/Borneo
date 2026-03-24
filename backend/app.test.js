@@ -1,10 +1,40 @@
 const request = require('supertest');
 const app = require('./app');
 
-describe('GET /', () => {
-  it('should return 200 and Hello World message', async () => {
+describe('Borneo API', () => {
+  it('GET / should return API status message', async () => {
     const res = await request(app).get('/');
     expect(res.statusCode).toEqual(200);
-    expect(res.body).toHaveProperty('message', 'Hello World');
+    expect(res.body).toHaveProperty('message', 'Borneo API is running');
+  });
+
+  it('GET /attractions should return attraction data', async () => {
+    const res = await request(app).get('/attractions');
+    expect(res.statusCode).toEqual(200);
+    expect(Array.isArray(res.body.data)).toBe(true);
+    expect(res.body.data.length).toBeGreaterThan(0);
+  });
+
+  it('GET /wildlife should return wildlife data', async () => {
+    const res = await request(app).get('/wildlife');
+    expect(res.statusCode).toEqual(200);
+    expect(Array.isArray(res.body.data)).toBe(true);
+    expect(res.body.data[0]).toHaveProperty('species');
+  });
+
+  it('GET /trails should return trails data', async () => {
+    const res = await request(app).get('/trails');
+    expect(res.statusCode).toEqual(200);
+    expect(Array.isArray(res.body.data)).toBe(true);
+    expect(res.body.data[0]).toHaveProperty('stops');
+  });
+
+  it('GET /offline-pack should return combined payload', async () => {
+    const res = await request(app).get('/offline-pack');
+    expect(res.statusCode).toEqual(200);
+    expect(res.body.data).toHaveProperty('generatedAt');
+    expect(res.body.data.includes).toHaveProperty('attractions');
+    expect(res.body.data.includes).toHaveProperty('wildlife');
+    expect(res.body.data.includes).toHaveProperty('trails');
   });
 });
