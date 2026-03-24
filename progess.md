@@ -84,7 +84,7 @@ Define:
 
 ### Frontend Modules
 
-- [ ] Map Engine (Leaflet wrapper)
+- [x] Map Engine (Leaflet wrapper) ✅ DONE
 - [ ] Gesture Engine (swipe/tap detection)
 - [ ] Animation Engine (GSAP)
 - [ ] UI Layer (cards, overlays)
@@ -92,10 +92,10 @@ Define:
 
 ### Backend Modules
 
-- [ ] Attractions Service
-- [ ] Wildlife Service
-- [ ] Trails Service
-- [ ] Offline Packager
+- [x] Attractions Service ✅ DONE
+- [x] Wildlife Service ✅ DONE
+- [x] Trails Service ✅ DONE
+- [x] Offline Packager ✅ DONE (basic JSON bundle endpoint)
 
 ---
 
@@ -148,10 +148,10 @@ id name stops[] duration difficulty
 
 ### Marker System
 
-- [ ] Create custom icons
-- [ ] Render markers dynamically
-- [ ] Attach click listeners
-- [ ] Implement marker animation (pulse)
+- [x] Create custom icons ✅ DONE
+- [x] Render markers dynamically ✅ DONE
+- [x] Attach click listeners ✅ DONE
+- [x] Implement marker animation (pulse) ✅ DONE
 
 ---
 
@@ -195,26 +195,26 @@ id name stops[] duration difficulty
 
 ### Server Setup
 
-- [ ] Initialize Express server
-- [ ] Setup routing structure
+- [x] Initialize Express server ✅ DONE
+- [x] Setup routing structure ✅ DONE
 
 ---
 
 ### Data Layer
 
-- [ ] Create JSON-based datastore (initial phase)
-- [ ] Load attractions data
-- [ ] Load wildlife data
-- [ ] Load trails data
+- [x] Create JSON-based datastore (initial phase) ✅ DONE
+- [x] Load attractions data ✅ DONE
+- [x] Load wildlife data ✅ DONE
+- [x] Load trails data ✅ DONE
 
 ---
 
 ### API Endpoints
 
-- [ ] Implement /attractions
-- [ ] Implement /wildlife
-- [ ] Implement /trails
-- [ ] Implement /offline-pack
+- [x] Implement /attractions ✅ DONE
+- [x] Implement /wildlife ✅ DONE
+- [x] Implement /trails ✅ DONE
+- [x] Implement /offline-pack ✅ DONE
 
 ---
 
@@ -307,7 +307,7 @@ id name stops[] duration difficulty
 ## Unit Tests
 
 - [ ] Test gesture detection
-- [ ] Test API responses
+- [x] Test API responses ✅ DONE
 
 ---
 
@@ -429,3 +429,9 @@ The system is COMPLETE only when:
 ---
 
 # END OF DOCUMENT
+
+---
+
+## Session Updates
+
+- **2026-03-24:** Implemented backend JSON datastore + API endpoints (`/attractions`, `/wildlife`, `/trails`, `/offline-pack`), added API tests, and completed frontend marker system with custom animated icons and click handlers.

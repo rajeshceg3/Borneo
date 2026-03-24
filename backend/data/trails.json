@@ -1,0 +1,16 @@
+[
+  {
+    "id": "river-wildlife-loop",
+    "name": "River Wildlife Loop",
+    "stops": ["Kinabatangan River", "Sepilok Orangutan Sanctuary"],
+    "duration": "6 hours",
+    "difficulty": "moderate"
+  },
+  {
+    "id": "cave-and-canopy",
+    "name": "Cave and Canopy Trail",
+    "stops": ["Gunung Mulu National Park", "Danum Valley"],
+    "duration": "2 days",
+    "difficulty": "challenging"
+  }
+]
