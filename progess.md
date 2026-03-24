@@ -137,12 +137,12 @@ id name stops[] duration difficulty
 
 ## 3.1 FRONTEND IMPLEMENTATION 🔴
 
-### Map Initialization
+### Map Initialization ✅ DONE
 
-- [ ] Create map container
-- [ ] Initialize Leaflet instance
-- [ ] Disable scroll zoom
-- [ ] Apply custom styling
+- [x] Create map container
+- [x] Initialize Leaflet instance
+- [x] Disable scroll zoom
+- [x] Apply custom styling
 
 ---
 
