@@ -24,9 +24,46 @@ vi.mock('leaflet', () => ({
   }
 }))
 
+const gsapFromTo = vi.fn()
+const gsapTo = vi.fn((_, options) => options?.onComplete?.())
+
+vi.mock('gsap', () => ({
+  gsap: {
+    fromTo: gsapFromTo,
+    to: gsapTo
+  }
+}))
+
+const createMockElement = () => ({
+  id: '',
+  className: '',
+  innerHTML: '',
+  attributes: {},
+  classList: {
+    classes: new Set(),
+    add(value) {
+      this.classes.add(value)
+    },
+    remove(value) {
+      this.classes.delete(value)
+    },
+    contains(value) {
+      return this.classes.has(value)
+    }
+  },
+  setAttribute(name, value) {
+    this.attributes[name] = value
+  }
+})
+
 describe('Frontend map and marker setup', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    global.document = {
+      createElement: vi.fn(() => createMockElement()),
+      getElementById: vi.fn(() => null),
+      body: {}
+    }
   })
 
   it('initializes map with calm interaction settings', async () => {
@@ -53,8 +90,9 @@ describe('Frontend map and marker setup', () => {
       { name: 'Danum Valley', coordinates: [4.9, 117.8] },
       { name: 'Kinabatangan River', coordinates: [5.5, 118.3] }
     ]
+    const cardController = { open: vi.fn() }
 
-    const markers = renderAttractionMarkers(map, locations)
+    const markers = renderAttractionMarkers(map, locations, cardController)
 
     expect(divIconFactory).toHaveBeenCalledTimes(1)
     expect(markerFactory).toHaveBeenCalledTimes(2)
@@ -62,7 +100,29 @@ describe('Frontend map and marker setup', () => {
     expect(markers.length).toBe(2)
   })
 
-  it('binds swipe gestures to marker navigation and map close', async () => {
+  it('builds fullscreen cards with lazy-loaded images', async () => {
+    const { createAttractionCardController } = await import('./src/main.js')
+
+    const appended = []
+    const root = {
+      querySelector: vi.fn(() => null),
+      appendChild: vi.fn((element) => appended.push(element))
+    }
+
+    const controller = createAttractionCardController(root)
+    controller.open({
+      name: 'Danum Valley',
+      type: 'forest',
+      description: 'Ancient canopy.',
+      images: ['https://example.com/danum.jpg']
+    })
+
+    expect(appended[0].classList.contains('is-open')).toBe(true)
+    expect(appended[0].innerHTML).toContain('loading="lazy"')
+    expect(gsapFromTo).toHaveBeenCalledTimes(1)
+  })
+
+  it('binds swipe gestures to marker navigation and card close', async () => {
     const { bindMapGestures } = await import('./src/main.js')
 
     const map = mapFactory()
@@ -77,6 +137,8 @@ describe('Frontend map and marker setup', () => {
       removeEventListener: vi.fn()
     }
 
+    const cardController = { open: vi.fn(), close: vi.fn() }
+
     bindMapGestures(
       map,
       [markerOne, markerTwo],
@@ -84,6 +146,7 @@ describe('Frontend map and marker setup', () => {
         { name: 'Danum Valley', coordinates: [4.9, 117.8] },
         { name: 'Kinabatangan River', coordinates: [5.5, 118.3] }
       ],
+      cardController,
       element
     )
 
@@ -92,10 +155,12 @@ describe('Frontend map and marker setup', () => {
 
     expect(map.setView).toHaveBeenCalledWith([5.5, 118.3], 6, { animate: true })
     expect(markerTwo.bindPopup).toHaveBeenCalled()
+    expect(cardController.open).toHaveBeenCalled()
 
     listeners.touchstart({ touches: [{ clientX: 80, clientY: 80 }] })
     listeners.touchend({ changedTouches: [{ clientX: 82, clientY: 170 }] })
 
     expect(map.closePopup).toHaveBeenCalledTimes(1)
+    expect(cardController.close).toHaveBeenCalledTimes(1)
   })
 })
