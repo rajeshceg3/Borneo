@@ -232,9 +232,9 @@ id name stops[] duration difficulty
 
 ## 3.3 INTEGRATION TASKS 🔴
 
-- [ ] Connect frontend to backend APIs
-- [ ] Implement caching layer
-- [ ] Handle API failures gracefully
+- [x] Connect frontend to backend APIs
+- [x] Implement caching layer
+- [x] Handle API failures gracefully
 
 ---
 
@@ -437,3 +437,4 @@ The system is COMPLETE only when:
 - **2026-03-24:** Implemented backend JSON datastore + API endpoints (`/attractions`, `/wildlife`, `/trails`, `/offline-pack`), added API tests, and completed frontend marker system with custom animated icons and click handlers.
 - **2026-03-24:** Implemented frontend gesture engine with swipe detection (left/right/down), bound gestures to marker navigation and popup close actions, and added dedicated gesture unit tests.
 - **2026-03-24:** Implemented the UI cards system: fullscreen attraction modal, GSAP slide/fade transitions, lazy-loaded hero images in card content, and expanded frontend tests for card rendering + gesture-driven card behavior.
+- **2026-03-24:** Integrated frontend with backend APIs by implementing fetch functions with `localStorage` caching and fallback mechanics, satisfying the `Integration Tasks` criteria, and refactored the map initialization logic to consume live attraction data. Project completion is approximately 55%.
