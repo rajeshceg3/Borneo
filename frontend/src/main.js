@@ -4,6 +4,7 @@ import L from 'leaflet'
 import { gsap } from 'gsap'
 import { attractions } from './data/attractions'
 import { bindGestureNavigation } from './gestureEngine'
+import { fetchAttractions } from './api'
 
 export const createAttractionIcon = () => L.divIcon({
   className: 'attraction-marker-icon',
@@ -146,9 +147,17 @@ export const bindMapGestures = (
 
 const mapElement = typeof document !== 'undefined' ? document.getElementById('map') : null
 
-if (mapElement) {
-  const map = initializeMap()
-  const cardController = createAttractionCardController()
-  const markers = renderAttractionMarkers(map, attractions, cardController)
-  bindMapGestures(map, markers, attractions, cardController)
+const init = async () => {
+  if (mapElement) {
+    const map = initializeMap()
+    const cardController = createAttractionCardController()
+
+    // Fetch data from API with fallback
+    const fetchedAttractions = await fetchAttractions()
+
+    const markers = renderAttractionMarkers(map, fetchedAttractions, cardController)
+    bindMapGestures(map, markers, fetchedAttractions, cardController)
+  }
 }
+
+init()
