@@ -185,9 +185,9 @@ id name stops[] duration difficulty
 
 ### Night Mode 🔴
 
-- [ ] Detect system time
-- [ ] Switch theme dynamically
-- [ ] Add ambient animations
+- [x] Detect system time ✅ DONE
+- [x] Switch theme dynamically ✅ DONE
+- [x] Add ambient animations ✅ DONE
 
 ---
 
@@ -438,3 +438,4 @@ The system is COMPLETE only when:
 - **2026-03-24:** Implemented frontend gesture engine with swipe detection (left/right/down), bound gestures to marker navigation and popup close actions, and added dedicated gesture unit tests.
 - **2026-03-24:** Implemented the UI cards system: fullscreen attraction modal, GSAP slide/fade transitions, lazy-loaded hero images in card content, and expanded frontend tests for card rendering + gesture-driven card behavior.
 - **2026-03-24:** Integrated frontend with backend APIs by implementing fetch functions with `localStorage` caching and fallback mechanics, satisfying the `Integration Tasks` criteria, and refactored the map initialization logic to consume live attraction data. Project completion is approximately 55%.
+- **2026-03-25:** Implemented Night Mode functionality (system time detection, dynamic dark jungle theme switching, and ambient firefly animations) mapped to critical path in `progess.md`, raising project completion to approximately 65%.

@@ -13,6 +13,32 @@ export const createAttractionIcon = () => L.divIcon({
   iconAnchor: [9, 9]
 })
 
+export const applyNightMode = () => {
+  if (typeof document === 'undefined' || !document.body || !document.body.classList) return
+
+  const currentHour = new Date().getHours()
+  const isNight = currentHour >= 19 || currentHour < 6
+
+  if (isNight) {
+    document.body.classList.add('night-mode')
+
+    // Add firefly ambient animations
+    for (let i = 0; i < 30; i++) {
+      const firefly = document.createElement('div')
+      firefly.className = 'firefly'
+      firefly.style.left = `${Math.random() * 100}vw`
+      firefly.style.top = `${Math.random() * 100}vh`
+      firefly.style.animationDelay = `${Math.random() * 5}s`
+      document.body.appendChild(firefly)
+    }
+  } else {
+    document.body.classList.remove('night-mode')
+    if (document.querySelectorAll) {
+      document.querySelectorAll('.firefly').forEach((el) => el.remove())
+    }
+  }
+}
+
 export const initializeMap = (containerId = 'map') => {
   const map = L.map(containerId, {
     center: [4.5, 114],
@@ -24,6 +50,8 @@ export const initializeMap = (containerId = 'map') => {
   })
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map)
+
+  applyNightMode()
 
   return map
 }
