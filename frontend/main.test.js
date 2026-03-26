@@ -38,6 +38,7 @@ const createMockElement = () => ({
   id: '',
   className: '',
   innerHTML: '',
+  style: {},
   attributes: {},
   classList: {
     classes: new Set(),
@@ -64,6 +65,48 @@ describe('Frontend map and marker setup', () => {
       getElementById: vi.fn(() => null),
       body: {}
     }
+  })
+
+  it('applies night mode based on system time', async () => {
+    const { applyNightMode } = await import('./src/main.js')
+
+    const originalDate = global.Date
+    const mockDate = class extends Date {
+      constructor() {
+        super()
+      }
+      getHours() {
+        return 21 // 9 PM
+      }
+    }
+    global.Date = mockDate
+
+    const appended = []
+    global.document.body = createMockElement()
+    global.document.body.appendChild = vi.fn((el) => appended.push(el))
+    global.document.querySelectorAll = vi.fn(() => [])
+
+    applyNightMode()
+
+    expect(global.document.body.classList.contains('night-mode')).toBe(true)
+    expect(appended.length).toBe(30)
+    expect(appended[0].className).toBe('firefly')
+
+    // Test Day Mode
+    const mockDayDate = class extends Date {
+      constructor() {
+        super()
+      }
+      getHours() {
+        return 12 // 12 PM
+      }
+    }
+    global.Date = mockDayDate
+
+    applyNightMode()
+    expect(global.document.body.classList.contains('night-mode')).toBe(false)
+
+    global.Date = originalDate
   })
 
   it('initializes map with calm interaction settings', async () => {
