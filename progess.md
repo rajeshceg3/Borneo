@@ -178,8 +178,8 @@ id name stops[] duration difficulty
 
 ### Wildlife Layer
 
-- [ ] Toggle wildlife markers
-- [ ] Render animal data cards
+- [x] Toggle wildlife markers ✅ DONE
+- [x] Render animal data cards ✅ DONE
 
 ---
 
@@ -439,3 +439,4 @@ The system is COMPLETE only when:
 - **2026-03-24:** Implemented the UI cards system: fullscreen attraction modal, GSAP slide/fade transitions, lazy-loaded hero images in card content, and expanded frontend tests for card rendering + gesture-driven card behavior.
 - **2026-03-24:** Integrated frontend with backend APIs by implementing fetch functions with `localStorage` caching and fallback mechanics, satisfying the `Integration Tasks` criteria, and refactored the map initialization logic to consume live attraction data. Project completion is approximately 55%.
 - **2026-03-25:** Implemented Night Mode functionality (system time detection, dynamic dark jungle theme switching, and ambient firefly animations) mapped to critical path in `progess.md`, raising project completion to approximately 65%.
+- **2026-03-25:** Implemented Wildlife Layer on the frontend map. Added toggle controls to show/hide wildlife markers. Bound data from the wildlife API to custom fullscreen data cards containing habitat info and fun facts. Included comprehensive test coverage for wildlife functionality. Project completion is approximately 70%.
