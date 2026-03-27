@@ -220,13 +220,13 @@ id name stops[] duration difficulty
 
 ### Offline Packager 🔴
 
-- [ ] Bundle:
+- [x] Bundle: ✅ DONE
   - map tiles
   - images
   - JSON data
 
-- [ ] Compress assets
-- [ ] Serve downloadable package
+- [x] Compress assets ✅ DONE
+- [x] Serve downloadable package ✅ DONE
 
 ---
 
@@ -440,3 +440,4 @@ The system is COMPLETE only when:
 - **2026-03-24:** Integrated frontend with backend APIs by implementing fetch functions with `localStorage` caching and fallback mechanics, satisfying the `Integration Tasks` criteria, and refactored the map initialization logic to consume live attraction data. Project completion is approximately 55%.
 - **2026-03-25:** Implemented Night Mode functionality (system time detection, dynamic dark jungle theme switching, and ambient firefly animations) mapped to critical path in `progess.md`, raising project completion to approximately 65%.
 - **2026-03-25:** Implemented Wildlife Layer on the frontend map. Added toggle controls to show/hide wildlife markers. Bound data from the wildlife API to custom fullscreen data cards containing habitat info and fun facts. Included comprehensive test coverage for wildlife functionality. Project completion is approximately 70%.
+- **2026-03-27:** Implemented Offline Packager endpoint (`GET /offline-pack/download`) using `archiver` to bundle and compress JSON data, images, and map tiles. The backend now serves a downloadable zip package to support offline mode. Added backend tests for the new endpoint. Project completion is approximately 75%.

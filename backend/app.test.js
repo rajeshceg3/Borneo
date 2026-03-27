@@ -37,4 +37,11 @@ describe('Borneo API', () => {
     expect(res.body.data.includes).toHaveProperty('wildlife');
     expect(res.body.data.includes).toHaveProperty('trails');
   });
+
+  it('GET /offline-pack/download should return a zip file', async () => {
+    const res = await request(app).get('/offline-pack/download');
+    expect(res.statusCode).toEqual(200);
+    expect(res.headers['content-type']).toBe('application/zip');
+    expect(res.headers['content-disposition']).toContain('attachment; filename=borneo-offline-pack.zip');
+  });
 });

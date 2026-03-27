@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const archiver = require('archiver');
+const path = require('path');
 
 const attractions = require('./data/attractions.json');
 const wildlife = require('./data/wildlife.json');
@@ -36,6 +38,28 @@ app.get('/offline-pack', (req, res) => {
       }
     }
   });
+});
+
+app.get('/offline-pack/download', (req, res) => {
+  res.setHeader('Content-Type', 'application/zip');
+  res.setHeader('Content-Disposition', 'attachment; filename=borneo-offline-pack.zip');
+
+  const archive = archiver('zip', {
+    zlib: { level: 9 } // max compression
+  });
+
+  archive.on('error', (err) => {
+    res.status(500).send({ error: err.message });
+  });
+
+  archive.pipe(res);
+
+  // Add JSON data
+  archive.directory(path.join(__dirname, 'data'), 'data');
+  // Add Assets (images, tiles)
+  archive.directory(path.join(__dirname, 'assets'), 'assets');
+
+  archive.finalize();
 });
 
 module.exports = app;
