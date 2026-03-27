@@ -153,3 +153,67 @@ body {
   50% { opacity: 0.8; }
   100% { opacity: 0; }
 }
+
+.floating-controls {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  gap: 12px;
+}
+
+.control-btn {
+  background: var(--primary);
+  color: var(--text);
+  border: 1px solid var(--accent);
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-family: var(--sans);
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.control-btn.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* Wildlife icon and marker */
+.wildlife-marker-icon {
+  background: transparent;
+  border: 0;
+}
+
+.wildlife-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: block;
+  background: var(--water);
+  box-shadow: 0 0 0 rgba(63, 136, 197, 0.4);
+  animation: pulse-wildlife 2s ease-out infinite;
+}
+
+@keyframes pulse-wildlife {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(63, 136, 197, 0.45);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 8px rgba(63, 136, 197, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(63, 136, 197, 0);
+  }
+}

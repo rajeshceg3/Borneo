@@ -143,6 +143,27 @@ describe('Frontend map and marker setup', () => {
     expect(markers.length).toBe(2)
   })
 
+  it('renders wildlife markers and opens wildlife cards', async () => {
+    const { renderWildlifeMarkers } = await import('./src/main.js')
+
+    const map = mapFactory()
+    const animals = [
+      { name: 'Bornean Orangutan', species: 'Pongo pygmaeus', habitat: 'Lowland', best_time: 'Morning', facts: ['Fact 1'] }
+    ]
+    const cardController = { open: vi.fn() }
+
+    const markers = renderWildlifeMarkers(map, animals, cardController)
+
+    expect(markerFactory).toHaveBeenCalledTimes(1)
+    expect(markers.length).toBe(1)
+
+    // Simulate click
+    const clickHandler = markerOn.mock.calls.find(call => call[0] === 'click')[1]
+    clickHandler()
+
+    expect(cardController.open).toHaveBeenCalledWith(animals[0], 'wildlife')
+  })
+
   it('builds fullscreen cards with lazy-loaded images', async () => {
     const { createAttractionCardController } = await import('./src/main.js')
 

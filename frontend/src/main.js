@@ -4,13 +4,20 @@ import L from 'leaflet'
 import { gsap } from 'gsap'
 import { attractions } from './data/attractions'
 import { bindGestureNavigation } from './gestureEngine'
-import { fetchAttractions } from './api'
+import { fetchAttractions, fetchWildlife } from './api'
 
 export const createAttractionIcon = () => L.divIcon({
   className: 'attraction-marker-icon',
   html: '<span class="pulse-dot" aria-hidden="true"></span>',
   iconSize: [18, 18],
   iconAnchor: [9, 9]
+})
+
+export const createWildlifeIcon = () => L.divIcon({
+  className: 'wildlife-marker-icon',
+  html: '<span class="wildlife-dot" aria-hidden="true"></span>',
+  iconSize: [16, 16],
+  iconAnchor: [8, 8]
 })
 
 export const applyNightMode = () => {
@@ -73,6 +80,24 @@ const getCardTemplate = (location) => {
   `
 }
 
+const getWildlifeCardTemplate = (animal) => {
+  const factsMarkup = animal.facts?.length
+    ? `<ul class="wildlife-card__facts">${animal.facts.map(fact => `<li>${fact}</li>`).join('')}</ul>`
+    : ''
+
+  return `
+    <article class="attraction-card__content wildlife-card__content" aria-live="polite">
+      <header class="attraction-card__header">
+        <p class="attraction-card__type">${animal.species}</p>
+        <h2 class="attraction-card__title">${animal.name}</h2>
+      </header>
+      <p class="wildlife-card__detail"><strong>Habitat:</strong> ${animal.habitat}</p>
+      <p class="wildlife-card__detail"><strong>Best Time:</strong> ${animal.best_time}</p>
+      ${factsMarkup}
+    </article>
+  `
+}
+
 export const createAttractionCardController = (root = document.body, animationLibrary = gsap) => {
   const container = root.querySelector('#attraction-card') ?? document.createElement('section')
 
@@ -83,8 +108,8 @@ export const createAttractionCardController = (root = document.body, animationLi
     root.appendChild(container)
   }
 
-  const open = (location) => {
-    container.innerHTML = getCardTemplate(location)
+  const open = (data, type = 'attraction') => {
+    container.innerHTML = type === 'wildlife' ? getWildlifeCardTemplate(data) : getCardTemplate(data)
     container.classList.add('is-open')
     container.setAttribute('aria-hidden', 'false')
 
@@ -132,7 +157,39 @@ export const renderAttractionMarkers = (
 
     marker.on('click', () => {
       marker.bindPopup(`<strong>${location.name}</strong>`).openPopup()
-      cardController.open(location)
+      cardController.open(location, 'attraction')
+    })
+
+    return marker
+  })
+}
+
+export const renderWildlifeMarkers = (
+  map,
+  wildlifeData = [],
+  cardController = createAttractionCardController()
+) => {
+  const icon = createWildlifeIcon()
+
+  // For demo, distribute them relative to a center point or around attractions
+  // In a real scenario, wildlife coordinates should be in the backend data
+  // Since we don't have them in the backend data (only habitat etc), we will generate dummy ones
+  const baseLat = 4.5
+  const baseLng = 114
+
+  return wildlifeData.map((animal, i) => {
+    // Generate dummy coordinates for testing if not present
+    const coordinates = animal.coordinates || [baseLat + (Math.random() * 2 - 1), baseLng + (Math.random() * 2 - 1)]
+
+    const marker = L.marker(coordinates, {
+      icon,
+      title: animal.name,
+      riseOnHover: true
+    }).addTo(map)
+
+    marker.on('click', () => {
+      marker.bindPopup(`<strong>${animal.name}</strong>`).openPopup()
+      cardController.open(animal, 'wildlife')
     })
 
     return marker
@@ -181,10 +238,32 @@ const init = async () => {
     const cardController = createAttractionCardController()
 
     // Fetch data from API with fallback
-    const fetchedAttractions = await fetchAttractions()
+    const [fetchedAttractions, fetchedWildlife] = await Promise.all([
+      fetchAttractions(),
+      fetchWildlife()
+    ])
 
     const markers = renderAttractionMarkers(map, fetchedAttractions, cardController)
     bindMapGestures(map, markers, fetchedAttractions, cardController)
+
+    let wildlifeMarkers = []
+    let wildlifeVisible = false
+    const wildlifeToggleBtn = document.getElementById('wildlife-toggle')
+
+    if (wildlifeToggleBtn) {
+      wildlifeToggleBtn.addEventListener('click', () => {
+        wildlifeVisible = !wildlifeVisible
+        wildlifeToggleBtn.setAttribute('aria-pressed', wildlifeVisible.toString())
+        wildlifeToggleBtn.classList.toggle('active', wildlifeVisible)
+
+        if (wildlifeVisible) {
+          wildlifeMarkers = renderWildlifeMarkers(map, fetchedWildlife, cardController)
+        } else {
+          wildlifeMarkers.forEach(marker => map.removeLayer(marker))
+          wildlifeMarkers = []
+        }
+      })
+    }
   }
 }
 
