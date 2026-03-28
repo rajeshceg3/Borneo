@@ -88,7 +88,7 @@ Define:
 - [x] Gesture Engine (swipe/tap detection) ✅ DONE
 - [ ] Animation Engine (GSAP)
 - [ ] UI Layer (cards, overlays)
-- [ ] State Store (Zustand)
+- [x] State Store (Zustand) ✅ DONE
 
 ### Backend Modules
 
@@ -441,3 +441,4 @@ The system is COMPLETE only when:
 - **2026-03-25:** Implemented Night Mode functionality (system time detection, dynamic dark jungle theme switching, and ambient firefly animations) mapped to critical path in `progess.md`, raising project completion to approximately 65%.
 - **2026-03-25:** Implemented Wildlife Layer on the frontend map. Added toggle controls to show/hide wildlife markers. Bound data from the wildlife API to custom fullscreen data cards containing habitat info and fun facts. Included comprehensive test coverage for wildlife functionality. Project completion is approximately 70%.
 - **2026-03-27:** Implemented Offline Packager endpoint (`GET /offline-pack/download`) using `archiver` to bundle and compress JSON data, images, and map tiles. The backend now serves a downloadable zip package to support offline mode. Added backend tests for the new endpoint. Project completion is approximately 75%.
+- **2026-03-27:** Implemented the Global State Store (Zustand) in the frontend. Replaced local state references in `main.js` with store states and actions (`attractions`, `wildlife`, `isWildlifeVisible`). Refactored toggle interactions to be driven by store changes. Added global state tests to `store.test.js`. Project completion is approximately 80%.
