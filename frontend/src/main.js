@@ -2,9 +2,9 @@ import './style.css'
 import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
 import { gsap } from 'gsap'
-import { attractions } from './data/attractions'
 import { bindGestureNavigation } from './gestureEngine'
 import { fetchAttractions, fetchWildlife } from './api'
+import { useStore } from './store'
 
 export const createAttractionIcon = () => L.divIcon({
   className: 'attraction-marker-icon',
@@ -143,7 +143,7 @@ export const createAttractionCardController = (root = document.body, animationLi
 
 export const renderAttractionMarkers = (
   map,
-  locationData = attractions,
+  locationData = [],
   cardController = createAttractionCardController()
 ) => {
   const icon = createAttractionIcon()
@@ -199,7 +199,7 @@ export const renderWildlifeMarkers = (
 export const bindMapGestures = (
   map,
   markers,
-  locationData = attractions,
+  locationData = [],
   cardController,
   element = document.body
 ) => {
@@ -236,6 +236,7 @@ const init = async () => {
   if (mapElement) {
     const map = initializeMap()
     const cardController = createAttractionCardController()
+    const store = useStore.getState()
 
     // Fetch data from API with fallback
     const [fetchedAttractions, fetchedWildlife] = await Promise.all([
@@ -243,25 +244,39 @@ const init = async () => {
       fetchWildlife()
     ])
 
-    const markers = renderAttractionMarkers(map, fetchedAttractions, cardController)
-    bindMapGestures(map, markers, fetchedAttractions, cardController)
+    // Save fetched data to global store
+    store.setAttractions(fetchedAttractions)
+    store.setWildlife(fetchedWildlife)
+
+    const markers = renderAttractionMarkers(map, useStore.getState().attractions, cardController)
+    bindMapGestures(map, markers, useStore.getState().attractions, cardController)
 
     let wildlifeMarkers = []
-    let wildlifeVisible = false
     const wildlifeToggleBtn = document.getElementById('wildlife-toggle')
 
     if (wildlifeToggleBtn) {
-      wildlifeToggleBtn.addEventListener('click', () => {
-        wildlifeVisible = !wildlifeVisible
-        wildlifeToggleBtn.setAttribute('aria-pressed', wildlifeVisible.toString())
-        wildlifeToggleBtn.classList.toggle('active', wildlifeVisible)
+      // Initialize ARIA state
+      wildlifeToggleBtn.setAttribute('aria-pressed', useStore.getState().isWildlifeVisible.toString())
 
-        if (wildlifeVisible) {
-          wildlifeMarkers = renderWildlifeMarkers(map, fetchedWildlife, cardController)
-        } else {
-          wildlifeMarkers.forEach(marker => map.removeLayer(marker))
-          wildlifeMarkers = []
+      // Subscribe to global store changes for wildlife visibility
+      useStore.subscribe((state, prevState) => {
+        if (state.isWildlifeVisible !== prevState.isWildlifeVisible) {
+          const isVisible = state.isWildlifeVisible
+          wildlifeToggleBtn.setAttribute('aria-pressed', isVisible.toString())
+          wildlifeToggleBtn.classList.toggle('active', isVisible)
+
+          if (isVisible) {
+            wildlifeMarkers = renderWildlifeMarkers(map, state.wildlife, cardController)
+          } else {
+            wildlifeMarkers.forEach(marker => map.removeLayer(marker))
+            wildlifeMarkers = []
+          }
         }
+      })
+
+      // Toggle state on click
+      wildlifeToggleBtn.addEventListener('click', () => {
+        useStore.getState().toggleWildlifeVisibility()
       })
     }
   }
