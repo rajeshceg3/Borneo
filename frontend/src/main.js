@@ -1,50 +1,50 @@
-import './style.css'
-import 'leaflet/dist/leaflet.css'
-import L from 'leaflet'
-import { gsap } from 'gsap'
-import { bindGestureNavigation } from './gestureEngine'
-import { fetchAttractions, fetchWildlife } from './api'
-import { useStore } from './store'
+import './style.css';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+import { gsap } from 'gsap';
+import { bindGestureNavigation } from './gestureEngine';
+import { fetchAttractions, fetchWildlife } from './api';
+import { useStore } from './store';
 
 export const createAttractionIcon = () => L.divIcon({
   className: 'attraction-marker-icon',
   html: '<span class="pulse-dot" aria-hidden="true"></span>',
   iconSize: [18, 18],
   iconAnchor: [9, 9]
-})
+});
 
 export const createWildlifeIcon = () => L.divIcon({
   className: 'wildlife-marker-icon',
   html: '<span class="wildlife-dot" aria-hidden="true"></span>',
   iconSize: [16, 16],
   iconAnchor: [8, 8]
-})
+});
 
 export const applyNightMode = () => {
-  if (typeof document === 'undefined' || !document.body || !document.body.classList) return
+  if (typeof document === 'undefined' || !document.body || !document.body.classList) return;
 
-  const currentHour = new Date().getHours()
-  const isNight = currentHour >= 19 || currentHour < 6
+  const currentHour = new Date().getHours();
+  const isNight = currentHour >= 19 || currentHour < 6;
 
   if (isNight) {
-    document.body.classList.add('night-mode')
+    document.body.classList.add('night-mode');
 
     // Add firefly ambient animations
     for (let i = 0; i < 30; i++) {
-      const firefly = document.createElement('div')
-      firefly.className = 'firefly'
-      firefly.style.left = `${Math.random() * 100}vw`
-      firefly.style.top = `${Math.random() * 100}vh`
-      firefly.style.animationDelay = `${Math.random() * 5}s`
-      document.body.appendChild(firefly)
+      const firefly = document.createElement('div');
+      firefly.className = 'firefly';
+      firefly.style.left = `${Math.random() * 100}vw`;
+      firefly.style.top = `${Math.random() * 100}vh`;
+      firefly.style.animationDelay = `${Math.random() * 5}s`;
+      document.body.appendChild(firefly);
     }
   } else {
-    document.body.classList.remove('night-mode')
+    document.body.classList.remove('night-mode');
     if (document.querySelectorAll) {
-      document.querySelectorAll('.firefly').forEach((el) => el.remove())
+      document.querySelectorAll('.firefly').forEach((el) => el.remove());
     }
   }
-}
+};
 
 export const initializeMap = (containerId = 'map') => {
   const map = L.map(containerId, {
@@ -54,19 +54,19 @@ export const initializeMap = (containerId = 'map') => {
     scrollWheelZoom: false,
     dragging: true,
     doubleClickZoom: false
-  })
+  });
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map)
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-  applyNightMode()
+  applyNightMode();
 
-  return map
-}
+  return map;
+};
 
 const getCardTemplate = (location) => {
   const imageMarkup = location.images?.length
     ? `<img class="attraction-card__image" src="${location.images[0]}" alt="${location.name}" loading="lazy" decoding="async">`
-    : ''
+    : '';
 
   return `
     <article class="attraction-card__content" aria-live="polite">
@@ -77,13 +77,13 @@ const getCardTemplate = (location) => {
       ${imageMarkup}
       <p class="attraction-card__description">${location.description ?? ''}</p>
     </article>
-  `
-}
+  `;
+};
 
 const getWildlifeCardTemplate = (animal) => {
   const factsMarkup = animal.facts?.length
     ? `<ul class="wildlife-card__facts">${animal.facts.map(fact => `<li>${fact}</li>`).join('')}</ul>`
-    : ''
+    : '';
 
   return `
     <article class="attraction-card__content wildlife-card__content" aria-live="polite">
@@ -95,34 +95,34 @@ const getWildlifeCardTemplate = (animal) => {
       <p class="wildlife-card__detail"><strong>Best Time:</strong> ${animal.best_time}</p>
       ${factsMarkup}
     </article>
-  `
-}
+  `;
+};
 
 export const createAttractionCardController = (root = document.body, animationLibrary = gsap) => {
-  const container = root.querySelector('#attraction-card') ?? document.createElement('section')
+  const container = root.querySelector('#attraction-card') ?? document.createElement('section');
 
   if (!container.id) {
-    container.id = 'attraction-card'
-    container.className = 'attraction-card'
-    container.setAttribute('aria-hidden', 'true')
-    root.appendChild(container)
+    container.id = 'attraction-card';
+    container.className = 'attraction-card';
+    container.setAttribute('aria-hidden', 'true');
+    root.appendChild(container);
   }
 
   const open = (data, type = 'attraction') => {
-    container.innerHTML = type === 'wildlife' ? getWildlifeCardTemplate(data) : getCardTemplate(data)
-    container.classList.add('is-open')
-    container.setAttribute('aria-hidden', 'false')
+    container.innerHTML = type === 'wildlife' ? getWildlifeCardTemplate(data) : getCardTemplate(data);
+    container.classList.add('is-open');
+    container.setAttribute('aria-hidden', 'false');
 
     animationLibrary.fromTo(
       container,
       { opacity: 0, yPercent: 100 },
       { opacity: 1, yPercent: 0, duration: 0.3, ease: 'power2.out' }
-    )
-  }
+    );
+  };
 
   const close = () => {
     if (!container.classList.contains('is-open')) {
-      return
+      return;
     }
 
     animationLibrary.to(container, {
@@ -131,70 +131,70 @@ export const createAttractionCardController = (root = document.body, animationLi
       duration: 0.3,
       ease: 'power2.out',
       onComplete: () => {
-        container.classList.remove('is-open')
-        container.setAttribute('aria-hidden', 'true')
-        container.innerHTML = ''
+        container.classList.remove('is-open');
+        container.setAttribute('aria-hidden', 'true');
+        container.innerHTML = '';
       }
-    })
-  }
+    });
+  };
 
-  return { open, close, element: container }
-}
+  return { open, close, element: container };
+};
 
 export const renderAttractionMarkers = (
   map,
   locationData = [],
   cardController = createAttractionCardController()
 ) => {
-  const icon = createAttractionIcon()
+  const icon = createAttractionIcon();
 
   return locationData.map((location) => {
     const marker = L.marker(location.coordinates, {
       icon,
       title: location.name,
       riseOnHover: true
-    }).addTo(map)
+    }).addTo(map);
 
     marker.on('click', () => {
-      marker.bindPopup(`<strong>${location.name}</strong>`).openPopup()
-      cardController.open(location, 'attraction')
-    })
+      marker.bindPopup(`<strong>${location.name}</strong>`).openPopup();
+      cardController.open(location, 'attraction');
+    });
 
-    return marker
-  })
-}
+    return marker;
+  });
+};
 
 export const renderWildlifeMarkers = (
   map,
   wildlifeData = [],
   cardController = createAttractionCardController()
 ) => {
-  const icon = createWildlifeIcon()
+  const icon = createWildlifeIcon();
 
   // For demo, distribute them relative to a center point or around attractions
   // In a real scenario, wildlife coordinates should be in the backend data
   // Since we don't have them in the backend data (only habitat etc), we will generate dummy ones
-  const baseLat = 4.5
-  const baseLng = 114
+  const baseLat = 4.5;
+  const baseLng = 114;
 
   return wildlifeData.map((animal, i) => {
     // Generate dummy coordinates for testing if not present
-    const coordinates = animal.coordinates || [baseLat + (Math.random() * 2 - 1), baseLng + (Math.random() * 2 - 1)]
+    const coordinates = animal.coordinates || [baseLat + (Math.random() * 2 - 1), baseLng + (Math.random() * 2 - 1)];
 
     const marker = L.marker(coordinates, {
       icon,
       title: animal.name,
       riseOnHover: true
-    }).addTo(map)
+    }).addTo(map);
 
     marker.on('click', () => {
-      marker.bindPopup(`<strong>${animal.name}</strong>`).openPopup()
-      cardController.open(animal, 'wildlife')
-    })
+      marker.bindPopup(`<strong>${animal.name}</strong>`).openPopup();
+      cardController.open(animal, 'wildlife');
+    });
 
-    return marker
-  })
-}
+    return marker;
+  });
+};
 
 export const bindMapGestures = (
   map,
@@ -204,82 +204,82 @@ export const bindMapGestures = (
   element = document.body
 ) => {
   if (!markers.length || !locationData.length) {
-    return () => {}
+    return () => {};
   }
 
-  let activeIndex = 0
+  let activeIndex = 0;
 
   const focusMarker = (index) => {
-    const normalizedIndex = (index + markers.length) % markers.length
-    const location = locationData[normalizedIndex]
-    const marker = markers[normalizedIndex]
+    const normalizedIndex = (index + markers.length) % markers.length;
+    const location = locationData[normalizedIndex];
+    const marker = markers[normalizedIndex];
 
-    map.setView(location.coordinates, map.getZoom(), { animate: true })
-    marker.bindPopup(`<strong>${location.name}</strong>`).openPopup()
-    cardController?.open(location)
-    activeIndex = normalizedIndex
-  }
+    map.setView(location.coordinates, map.getZoom(), { animate: true });
+    marker.bindPopup(`<strong>${location.name}</strong>`).openPopup();
+    cardController?.open(location);
+    activeIndex = normalizedIndex;
+  };
 
   return bindGestureNavigation(element, {
     swipeLeft: () => focusMarker(activeIndex + 1),
     swipeRight: () => focusMarker(activeIndex - 1),
     swipeDown: () => {
-      map.closePopup()
-      cardController?.close()
+      map.closePopup();
+      cardController?.close();
     }
-  })
-}
+  });
+};
 
-const mapElement = typeof document !== 'undefined' ? document.getElementById('map') : null
+const mapElement = typeof document !== 'undefined' ? document.getElementById('map') : null;
 
 const init = async () => {
   if (mapElement) {
-    const map = initializeMap()
-    const cardController = createAttractionCardController()
-    const store = useStore.getState()
+    const map = initializeMap();
+    const cardController = createAttractionCardController();
+    const store = useStore.getState();
 
     // Fetch data from API with fallback
     const [fetchedAttractions, fetchedWildlife] = await Promise.all([
       fetchAttractions(),
       fetchWildlife()
-    ])
+    ]);
 
     // Save fetched data to global store
-    store.setAttractions(fetchedAttractions)
-    store.setWildlife(fetchedWildlife)
+    store.setAttractions(fetchedAttractions);
+    store.setWildlife(fetchedWildlife);
 
-    const markers = renderAttractionMarkers(map, useStore.getState().attractions, cardController)
-    bindMapGestures(map, markers, useStore.getState().attractions, cardController)
+    const markers = renderAttractionMarkers(map, useStore.getState().attractions, cardController);
+    bindMapGestures(map, markers, useStore.getState().attractions, cardController);
 
-    let wildlifeMarkers = []
-    const wildlifeToggleBtn = document.getElementById('wildlife-toggle')
+    let wildlifeMarkers = [];
+    const wildlifeToggleBtn = document.getElementById('wildlife-toggle');
 
     if (wildlifeToggleBtn) {
       // Initialize ARIA state
-      wildlifeToggleBtn.setAttribute('aria-pressed', useStore.getState().isWildlifeVisible.toString())
+      wildlifeToggleBtn.setAttribute('aria-pressed', useStore.getState().isWildlifeVisible.toString());
 
       // Subscribe to global store changes for wildlife visibility
       useStore.subscribe((state, prevState) => {
         if (state.isWildlifeVisible !== prevState.isWildlifeVisible) {
-          const isVisible = state.isWildlifeVisible
-          wildlifeToggleBtn.setAttribute('aria-pressed', isVisible.toString())
-          wildlifeToggleBtn.classList.toggle('active', isVisible)
+          const isVisible = state.isWildlifeVisible;
+          wildlifeToggleBtn.setAttribute('aria-pressed', isVisible.toString());
+          wildlifeToggleBtn.classList.toggle('active', isVisible);
 
           if (isVisible) {
-            wildlifeMarkers = renderWildlifeMarkers(map, state.wildlife, cardController)
+            wildlifeMarkers = renderWildlifeMarkers(map, state.wildlife, cardController);
           } else {
-            wildlifeMarkers.forEach(marker => map.removeLayer(marker))
-            wildlifeMarkers = []
+            wildlifeMarkers.forEach(marker => map.removeLayer(marker));
+            wildlifeMarkers = [];
           }
         }
-      })
+      });
 
       // Toggle state on click
       wildlifeToggleBtn.addEventListener('click', () => {
-        useStore.getState().toggleWildlifeVisibility()
-      })
+        useStore.getState().toggleWildlifeVisibility();
+      });
     }
   }
-}
+};
 
-init()
+init();

@@ -254,9 +254,9 @@ id name stops[] duration difficulty
 
 ---
 
-### CI/CD Pipeline 🔴
+### CI/CD Pipeline 🔴 ✅ DONE
 
-- [ ] Setup GitHub Actions:
+- [x] Setup GitHub Actions:
   - lint
   - build
   - test
@@ -338,10 +338,10 @@ id name stops[] duration difficulty
 
 ---
 
-## Build Pipeline
+## Build Pipeline ✅ DONE
 
-- [ ] Build frontend bundle
-- [ ] Build backend service
+- [x] Build frontend bundle
+- [x] Build backend service
 
 ---
 
@@ -442,3 +442,4 @@ The system is COMPLETE only when:
 - **2026-03-25:** Implemented Wildlife Layer on the frontend map. Added toggle controls to show/hide wildlife markers. Bound data from the wildlife API to custom fullscreen data cards containing habitat info and fun facts. Included comprehensive test coverage for wildlife functionality. Project completion is approximately 70%.
 - **2026-03-27:** Implemented Offline Packager endpoint (`GET /offline-pack/download`) using `archiver` to bundle and compress JSON data, images, and map tiles. The backend now serves a downloadable zip package to support offline mode. Added backend tests for the new endpoint. Project completion is approximately 75%.
 - **2026-03-27:** Implemented the Global State Store (Zustand) in the frontend. Replaced local state references in `main.js` with store states and actions (`attractions`, `wildlife`, `isWildlifeVisible`). Refactored toggle interactions to be driven by store changes. Added global state tests to `store.test.js`. Project completion is approximately 80%.
+- **2026-03-27:** Implemented the GitHub Actions CI/CD Pipeline (`.github/workflows/ci.yml`), including steps for linting, building, and testing the application across both frontend and backend. Marked `Build frontend bundle` and `Build backend service` as complete since `npm run build` handles frontend artifact generation and the backend is a plain Node server. Project completion is approximately 85%.
