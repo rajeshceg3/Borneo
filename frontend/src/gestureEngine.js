@@ -1,5 +1,5 @@
-const DEFAULT_THRESHOLD = 50
-const MAX_VERTICAL_DRIFT = 40
+const DEFAULT_THRESHOLD = 50;
+const MAX_VERTICAL_DRIFT = 40;
 
 export const detectSwipeDirection = (
   start,
@@ -8,65 +8,65 @@ export const detectSwipeDirection = (
   maxVerticalDrift = MAX_VERTICAL_DRIFT
 ) => {
   if (!start || !end) {
-    return null
+    return null;
   }
 
-  const deltaX = end.x - start.x
-  const deltaY = end.y - start.y
+  const deltaX = end.x - start.x;
+  const deltaY = end.y - start.y;
 
   if (Math.abs(deltaX) < threshold && deltaY > threshold) {
-    return 'swipeDown'
+    return 'swipeDown';
   }
 
   if (Math.abs(deltaY) > maxVerticalDrift && Math.abs(deltaX) < Math.abs(deltaY)) {
-    return null
+    return null;
   }
 
   if (Math.abs(deltaX) < threshold) {
-    return null
+    return null;
   }
 
-  return deltaX < 0 ? 'swipeLeft' : 'swipeRight'
-}
+  return deltaX < 0 ? 'swipeLeft' : 'swipeRight';
+};
 
 export const bindGestureNavigation = (element, handlers = {}) => {
   if (!element || typeof element.addEventListener !== 'function') {
-    return () => {}
+    return () => {};
   }
 
-  let touchStart = null
+  let touchStart = null;
 
   const onTouchStart = (event) => {
-    const firstTouch = event.touches?.[0]
+    const firstTouch = event.touches?.[0];
     if (!firstTouch) {
-      return
+      return;
     }
 
-    touchStart = { x: firstTouch.clientX, y: firstTouch.clientY }
-  }
+    touchStart = { x: firstTouch.clientX, y: firstTouch.clientY };
+  };
 
   const onTouchEnd = (event) => {
-    const lastTouch = event.changedTouches?.[0]
+    const lastTouch = event.changedTouches?.[0];
     if (!touchStart || !lastTouch) {
-      touchStart = null
-      return
+      touchStart = null;
+      return;
     }
 
-    const touchEnd = { x: lastTouch.clientX, y: lastTouch.clientY }
-    const direction = detectSwipeDirection(touchStart, touchEnd)
+    const touchEnd = { x: lastTouch.clientX, y: lastTouch.clientY };
+    const direction = detectSwipeDirection(touchStart, touchEnd);
 
     if (direction && typeof handlers[direction] === 'function') {
-      handlers[direction]()
+      handlers[direction]();
     }
 
-    touchStart = null
-  }
+    touchStart = null;
+  };
 
-  element.addEventListener('touchstart', onTouchStart, { passive: true })
-  element.addEventListener('touchend', onTouchEnd, { passive: true })
+  element.addEventListener('touchstart', onTouchStart, { passive: true });
+  element.addEventListener('touchend', onTouchEnd, { passive: true });
 
   return () => {
-    element.removeEventListener('touchstart', onTouchStart)
-    element.removeEventListener('touchend', onTouchEnd)
-  }
-}
+    element.removeEventListener('touchstart', onTouchStart);
+    element.removeEventListener('touchend', onTouchEnd);
+  };
+};

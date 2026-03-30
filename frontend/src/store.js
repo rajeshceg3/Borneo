@@ -1,4 +1,4 @@
-import { createStore } from 'zustand/vanilla'
+import { createStore } from 'zustand/vanilla';
 
 export const useStore = createStore((set) => ({
   attractions: [],
@@ -13,4 +13,4 @@ export const useStore = createStore((set) => ({
   toggleWildlifeVisibility: () => set((state) => ({ isWildlifeVisible: !state.isWildlifeVisible })),
   setActiveItem: (item) => set({ activeItem: item }),
   clearActiveItem: () => set({ activeItem: null })
-}))
+}));
