@@ -1,6 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { fetchWithCache, fetchAttractions, fetchWildlife, fetchTrails } from './src/api';
-import { attractions as fallbackAttractions } from './src/data/attractions';
+import { fetchAttractions, fetchWithCache } from './src/api';
 
 // Mock localStorage
 const localStorageMock = (() => {
