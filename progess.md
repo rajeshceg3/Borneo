@@ -311,10 +311,10 @@ id name stops[] duration difficulty
 
 ---
 
-## Integration Tests
+## Integration Tests ✅ DONE
 
-- [ ] Frontend ↔ Backend communication
-- [ ] Map rendering with data
+- [x] Frontend ↔ Backend communication
+- [x] Map rendering with data
 
 ---
 
@@ -443,3 +443,4 @@ The system is COMPLETE only when:
 - **2026-03-27:** Implemented Offline Packager endpoint (`GET /offline-pack/download`) using `archiver` to bundle and compress JSON data, images, and map tiles. The backend now serves a downloadable zip package to support offline mode. Added backend tests for the new endpoint. Project completion is approximately 75%.
 - **2026-03-27:** Implemented the Global State Store (Zustand) in the frontend. Replaced local state references in `main.js` with store states and actions (`attractions`, `wildlife`, `isWildlifeVisible`). Refactored toggle interactions to be driven by store changes. Added global state tests to `store.test.js`. Project completion is approximately 80%.
 - **2026-03-30:** Migrated ESLint config to new flat config (`eslint.config.mjs`) and fixed remaining lint errors. Set up GitHub Actions CI/CD Pipeline (`.github/workflows/ci.yml`) including lint, test, and build jobs. Project completion is approximately 85%.
+- **2026-03-31:** Implemented frontend integration tests (`frontend/src/integration.test.js`) covering Frontend ↔ Backend communication (mocking fetch and local storage) and Map rendering with data (validating marker placement on Leaflet map). Marked Integration Tests as ✅ DONE. Project completion is approximately 88%.
