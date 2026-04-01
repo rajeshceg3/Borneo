@@ -10,6 +10,7 @@
     "test": "vitest run"
   },
   "devDependencies": {
+    "@playwright/test": "^1.59.1",
     "jsdom": "^29.0.1",
     "vite": "^8.0.1",
     "vitest": "^4.1.1"
