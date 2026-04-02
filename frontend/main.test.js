@@ -174,6 +174,14 @@ describe('Frontend map and marker setup', () => {
     };
 
     const controller = createAttractionCardController(root);
+
+    // Stub querySelector on the mock element to return a mock narration btn
+    const containerMock = appended[0] || root.appendChild(createMockElement()); // Use the created element
+    const mockNarrationBtn = createMockElement();
+    mockNarrationBtn.dataset = { narration: 'Test Narration' };
+    mockNarrationBtn.addEventListener = vi.fn();
+    containerMock.querySelector = vi.fn((selector) => selector === '.narration-btn' ? mockNarrationBtn : null);
+
     controller.open({
       name: 'Danum Valley',
       type: 'forest',
@@ -183,7 +191,43 @@ describe('Frontend map and marker setup', () => {
 
     expect(appended[0].classList.contains('is-open')).toBe(true);
     expect(appended[0].innerHTML).toContain('loading="lazy"');
+    expect(appended[0].innerHTML).toContain('aria-live="polite"'); // Accessibility label
     expect(gsapFromTo).toHaveBeenCalledTimes(1);
+  });
+
+  it('triggers voice narration hooks using SpeechSynthesis API', async () => {
+    const { playNarration, stopNarration } = await import('./src/main.js');
+
+    const speakMock = vi.fn();
+    const cancelMock = vi.fn();
+    global.window = {
+      speechSynthesis: {
+        speak: speakMock,
+        cancel: cancelMock
+      }
+    };
+
+    // Proper way to mock a constructor function with vi.fn() for classes
+    global.SpeechSynthesisUtterance = class {
+      constructor(text) {
+        this.text = text;
+        this.rate = 1;
+      }
+    };
+    // Let's spy on it since it's a class
+    const utteranceSpy = vi.spyOn(global, 'SpeechSynthesisUtterance');
+
+    playNarration('Welcome to Borneo');
+    expect(cancelMock).toHaveBeenCalledTimes(1); // Should cancel before speaking
+    expect(utteranceSpy).toHaveBeenCalledWith('Welcome to Borneo');
+    expect(speakMock).toHaveBeenCalledTimes(1);
+
+    const passedUtterance = speakMock.mock.calls[0][0];
+    expect(passedUtterance.text).toBe('Welcome to Borneo');
+    expect(passedUtterance.rate).toBe(0.9);
+
+    stopNarration();
+    expect(cancelMock).toHaveBeenCalledTimes(2); // Should cancel when stopped
   });
 
   it('binds swipe gestures to marker navigation and card close', async () => {

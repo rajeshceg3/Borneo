@@ -7,10 +7,10 @@
     <title>frontend</title>
   </head>
   <body>
-    <div id="map"></div>
-    <div class="floating-controls">
-      <button id="wildlife-toggle" class="control-btn" aria-pressed="false">Toggle Wildlife</button>
-    </div>
+    <main id="map" aria-label="Interactive map of Borneo attractions" role="application"></main>
+    <nav class="floating-controls" aria-label="Map Controls">
+      <button id="wildlife-toggle" class="control-btn" aria-pressed="false" aria-label="Toggle Wildlife Visibility">Toggle Wildlife</button>
+    </nav>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

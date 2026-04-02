@@ -82,6 +82,12 @@ body {
   margin-bottom: 0.9rem;
 }
 
+.attraction-card__header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .attraction-card__type {
   margin: 0;
   text-transform: uppercase;
@@ -89,6 +95,25 @@ body {
   color: var(--mist);
   opacity: 0.75;
   font-size: 0.74rem;
+}
+
+.narration-btn {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+  color: var(--text);
+  line-height: 1;
+}
+
+.narration-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .attraction-card__title {

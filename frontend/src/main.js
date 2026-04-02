@@ -63,15 +63,35 @@ export const initializeMap = (containerId = 'map') => {
   return map;
 };
 
+export const playNarration = (text) => {
+  if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+    window.speechSynthesis.cancel(); // Stop any ongoing speech
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 0.9; // Slightly slower, calmer voice for the rainforest vibe
+    window.speechSynthesis.speak(utterance);
+  }
+};
+
+export const stopNarration = () => {
+  if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+  }
+};
+
 const getCardTemplate = (location) => {
   const imageMarkup = location.images?.length
     ? `<img class="attraction-card__image" src="${location.images[0]}" alt="${location.name}" loading="lazy" decoding="async">`
     : '';
 
+  const narrationText = `${location.name}, a ${location.type}. ${location.description || ''}`;
+
   return `
     <article class="attraction-card__content" aria-live="polite">
       <header class="attraction-card__header">
-        <p class="attraction-card__type">${location.type}</p>
+        <div class="attraction-card__header-top">
+          <p class="attraction-card__type">${location.type}</p>
+          <button class="narration-btn" aria-label="Listen to description" data-narration="${encodeURIComponent(narrationText)}">🔊</button>
+        </div>
         <h2 class="attraction-card__title">${location.name}</h2>
       </header>
       ${imageMarkup}
@@ -85,10 +105,15 @@ const getWildlifeCardTemplate = (animal) => {
     ? `<ul class="wildlife-card__facts">${animal.facts.map(fact => `<li>${fact}</li>`).join('')}</ul>`
     : '';
 
+  const narrationText = `${animal.name}, a ${animal.species}. Habitat is ${animal.habitat}. Best time to see is ${animal.best_time}. ${animal.facts ? animal.facts.join('. ') : ''}`;
+
   return `
     <article class="attraction-card__content wildlife-card__content" aria-live="polite">
       <header class="attraction-card__header">
-        <p class="attraction-card__type">${animal.species}</p>
+        <div class="attraction-card__header-top">
+          <p class="attraction-card__type">${animal.species}</p>
+          <button class="narration-btn" aria-label="Listen to description" data-narration="${encodeURIComponent(narrationText)}">🔊</button>
+        </div>
         <h2 class="attraction-card__title">${animal.name}</h2>
       </header>
       <p class="wildlife-card__detail"><strong>Habitat:</strong> ${animal.habitat}</p>
@@ -113,6 +138,18 @@ export const createAttractionCardController = (root = document.body, animationLi
     container.classList.add('is-open');
     container.setAttribute('aria-hidden', 'false');
 
+    // Attach listener for narration button
+    const narrationBtn = container.querySelector('.narration-btn');
+    if (narrationBtn) {
+      narrationBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const text = decodeURIComponent(narrationBtn.dataset.narration || '');
+        if (text) {
+          playNarration(text);
+        }
+      });
+    }
+
     animationLibrary.fromTo(
       container,
       { opacity: 0, yPercent: 100 },
@@ -124,6 +161,8 @@ export const createAttractionCardController = (root = document.body, animationLi
     if (!container.classList.contains('is-open')) {
       return;
     }
+
+    stopNarration();
 
     animationLibrary.to(container, {
       opacity: 0,
