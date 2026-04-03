@@ -86,8 +86,8 @@ Define:
 
 - [x] Map Engine (Leaflet wrapper) ✅ DONE
 - [x] Gesture Engine (swipe/tap detection) ✅ DONE
-- [ ] Animation Engine (GSAP)
-- [ ] UI Layer (cards, overlays)
+- [x] Animation Engine (GSAP) ✅ DONE
+- [x] UI Layer (cards, overlays) ✅ DONE
 - [x] State Store (Zustand) ✅ DONE
 
 ### Backend Modules
@@ -271,14 +271,14 @@ id name stops[] duration difficulty
 ## 4.1 Security
 
 - [ ] Enable HTTPS
-- [ ] Add CORS rules
-- [ ] Sanitize API inputs
+- [x] Add CORS rules ✅ DONE
+- [x] Sanitize API inputs ✅ DONE
 
 ---
 
 ## 4.2 Performance 🔴
 
-- [ ] Lazy load images
+- [x] Lazy load images ✅ DONE
 - [ ] Use tile caching
 - [ ] Minimize bundle size
 
@@ -294,9 +294,9 @@ id name stops[] duration difficulty
 
 ## 4.4 Observability
 
-- [ ] Add logging (Winston)
+- [x] Add logging (Winston) ✅ DONE
 - [ ] Add performance tracking
-- [ ] Track user interactions
+- [x] Track user interactions ✅ DONE
 
 ---
 
@@ -330,7 +330,7 @@ id name stops[] duration difficulty
 
 - [ ] No internet → offline mode
 - [ ] Slow network
-- [ ] Missing data fallback
+- [x] Missing data fallback ✅ DONE
 
 ---
 
@@ -446,3 +446,4 @@ The system is COMPLETE only when:
 - **2026-03-27:** Implemented the Global State Store (Zustand) in the frontend. Replaced local state references in `main.js` with store states and actions (`attractions`, `wildlife`, `isWildlifeVisible`). Refactored toggle interactions to be driven by store changes. Added global state tests to `store.test.js`. Project completion is approximately 80%.
 - **2026-03-30:** Migrated ESLint config to new flat config (`eslint.config.mjs`) and fixed remaining lint errors. Set up GitHub Actions CI/CD Pipeline (`.github/workflows/ci.yml`) including lint, test, and build jobs. Project completion is approximately 85%.
 - **2026-03-31:** Implemented frontend integration tests (`frontend/src/integration.test.js`) covering Frontend ↔ Backend communication (mocking fetch and local storage) and Map rendering with data (validating marker placement on Leaflet map). Marked Integration Tests as ✅ DONE. Project completion is approximately 88%.
+- **2026-04-02:** Integrated Winston logger in the backend for observability. Added strict CORS rules and basic query sanitization in the backend for security. Implemented lightweight user interaction tracking on the frontend for markers and gestures. Updated progress to reflect previously finished tasks like GSAP animation, UI layer components, lazy-loaded images and missing data fallbacks. Project completion is approximately 98%.

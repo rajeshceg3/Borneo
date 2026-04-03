@@ -2,14 +2,47 @@ const express = require('express');
 const cors = require('cors');
 const archiver = require('archiver');
 const path = require('path');
+const winston = require('winston');
+const expressWinston = require('express-winston');
 
 const attractions = require('./data/attractions.json');
 const wildlife = require('./data/wildlife.json');
 const trails = require('./data/trails.json');
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production' ? 'https://borneo-app.com' : 'http://localhost:5173',
+  methods: ['GET'],
+  allowedHeaders: ['Content-Type']
+}));
 app.use(express.json());
+
+// Basic query sanitization middleware
+app.use((req, res, next) => {
+  if (req.query) {
+    for (const key in req.query) {
+      if (typeof req.query[key] === 'string') {
+        req.query[key] = req.query[key].replace(/[^\w\s-]/gi, '');
+      }
+    }
+  }
+  next();
+});
+
+app.use(expressWinston.logger({
+  transports: [
+    new winston.transports.Console()
+  ],
+  format: winston.format.combine(
+    winston.format.colorize(),
+    winston.format.json()
+  ),
+  meta: true,
+  msg: "HTTP {{req.method}} {{req.url}}",
+  expressFormat: true,
+  colorize: false,
+  ignoreRoute: function (req, res) { return false; }
+}));
 
 app.get('/', (req, res) => {
   res.json({ message: 'Borneo API is running' });
@@ -61,5 +94,15 @@ app.get('/offline-pack/download', (req, res) => {
 
   archive.finalize();
 });
+
+app.use(expressWinston.errorLogger({
+  transports: [
+    new winston.transports.Console()
+  ],
+  format: winston.format.combine(
+    winston.format.colorize(),
+    winston.format.json()
+  )
+}));
 
 module.exports = app;
