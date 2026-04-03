@@ -286,9 +286,9 @@ id name stops[] duration difficulty
 
 ## 4.3 Accessibility
 
-- [ ] Add ARIA labels
+- [x] Add ARIA labels
 - [ ] Ensure contrast ratios
-- [ ] Add voice narration hooks
+- [x] Add voice narration hooks
 
 ---
 
@@ -434,6 +434,7 @@ The system is COMPLETE only when:
 
 ## Session Updates
 
+- **2026-04-01:** Implemented Accessibility features. Added ARIA labels and roles to HTML elements. Built a Web Speech API (`speechSynthesis`) narration feature for attraction and wildlife cards. Tested and verified across the repo. Project completion is approximately 94%.
 - **2026-03-31:** Implemented E2E testing with Playwright for the core interactive flows ("Open app → load map", "Tap marker → open card", "Swipe navigation"). Playwright configured to spin up backend/frontend. All E2E and existing tests pass. Project completion is approximately 91%.
 - **2026-03-24:** Implemented backend JSON datastore + API endpoints (`/attractions`, `/wildlife`, `/trails`, `/offline-pack`), added API tests, and completed frontend marker system with custom animated icons and click handlers.
 - **2026-03-24:** Implemented frontend gesture engine with swipe detection (left/right/down), bound gestures to marker navigation and popup close actions, and added dedicated gesture unit tests.
