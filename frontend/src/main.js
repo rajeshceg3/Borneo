@@ -289,7 +289,7 @@ export const bindMapGestures = (
 const mapElement = typeof document !== 'undefined' ? document.getElementById('map') : null;
 
 export const registerServiceWorker = async () => {
-  if ('serviceWorker' in navigator) {
+  if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator) {
     try {
       const registration = await navigator.serviceWorker.register('/sw.js');
       console.log('ServiceWorker registration successful with scope: ', registration.scope);
