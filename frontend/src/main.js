@@ -6,6 +6,12 @@ import { bindGestureNavigation } from './gestureEngine';
 import { fetchAttractions, fetchWildlife } from './api';
 import { useStore } from './store';
 
+export const trackUserInteraction = (eventName, data = {}) => {
+  // Lightweight mock tracking function
+  console.log(`[Analytics Track] ${eventName}`, data);
+  // In a real app, this might send an event to Google Analytics, Mixpanel, etc.
+};
+
 export const createAttractionIcon = () => L.divIcon({
   className: 'attraction-marker-icon',
   html: '<span class="pulse-dot" aria-hidden="true"></span>',
@@ -134,6 +140,8 @@ export const createAttractionCardController = (root = document.body, animationLi
   }
 
   const open = (data, type = 'attraction') => {
+    trackUserInteraction('Card_Opened', { type, name: data.name });
+
     container.innerHTML = type === 'wildlife' ? getWildlifeCardTemplate(data) : getCardTemplate(data);
     container.classList.add('is-open');
     container.setAttribute('aria-hidden', 'false');
@@ -195,6 +203,7 @@ export const renderAttractionMarkers = (
     }).addTo(map);
 
     marker.on('click', () => {
+      trackUserInteraction('Marker_Clicked', { type: 'attraction', name: location.name });
       marker.bindPopup(`<strong>${location.name}</strong>`).openPopup();
       cardController.open(location, 'attraction');
     });
@@ -227,6 +236,7 @@ export const renderWildlifeMarkers = (
     }).addTo(map);
 
     marker.on('click', () => {
+      trackUserInteraction('Marker_Clicked', { type: 'wildlife', name: animal.name });
       marker.bindPopup(`<strong>${animal.name}</strong>`).openPopup();
       cardController.open(animal, 'wildlife');
     });
@@ -260,9 +270,16 @@ export const bindMapGestures = (
   };
 
   return bindGestureNavigation(element, {
-    swipeLeft: () => focusMarker(activeIndex + 1),
-    swipeRight: () => focusMarker(activeIndex - 1),
+    swipeLeft: () => {
+      trackUserInteraction('Swipe_Navigation', { direction: 'left' });
+      focusMarker(activeIndex + 1);
+    },
+    swipeRight: () => {
+      trackUserInteraction('Swipe_Navigation', { direction: 'right' });
+      focusMarker(activeIndex - 1);
+    },
     swipeDown: () => {
+      trackUserInteraction('Swipe_Navigation', { direction: 'down' });
       map.closePopup();
       cardController?.close();
     }
