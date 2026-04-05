@@ -1,7 +1,7 @@
 :root {
   --primary: #0f3d2e;
-  --accent: #3aa76d;
-  --water: #3f88c5;
+  --accent: #4fcf8c;
+  --water: #6bb0ed;
   --mist: #f1f5f3;
   --text: #ffffff;
   --heading: 'Playfair Display', serif;
@@ -10,8 +10,8 @@
 
 body.night-mode {
   --primary: #081b14;
-  --accent: #2e8b57;
-  --water: #2c5a85;
+  --accent: #3cba73;
+  --water: #5499db;
   --mist: #c0c8c4;
   --text: #e0e0e0;
 }
@@ -50,7 +50,7 @@ body {
   border-radius: 50%;
   display: block;
   background: var(--accent);
-  box-shadow: 0 0 0 rgba(58, 167, 109, 0.4);
+  box-shadow: 0 0 0 rgba(79, 207, 140, 0.4);
   animation: pulse 1.8s ease-out infinite;
 }
 
@@ -140,15 +140,15 @@ body {
 @keyframes pulse {
   0% {
     transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(58, 167, 109, 0.45);
+    box-shadow: 0 0 0 0 rgba(79, 207, 140, 0.45);
   }
   70% {
     transform: scale(1);
-    box-shadow: 0 0 0 10px rgba(58, 167, 109, 0);
+    box-shadow: 0 0 0 10px rgba(79, 207, 140, 0);
   }
   100% {
     transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(58, 167, 109, 0);
+    box-shadow: 0 0 0 0 rgba(79, 207, 140, 0);
   }
 }
 
@@ -204,12 +204,12 @@ body {
 
 .control-btn:hover {
   background: var(--accent);
-  color: #fff;
+  color: var(--primary);
 }
 
 .control-btn.active {
   background: var(--accent);
-  color: #fff;
+  color: var(--primary);
 }
 
 /* Wildlife icon and marker */
@@ -224,21 +224,21 @@ body {
   border-radius: 50%;
   display: block;
   background: var(--water);
-  box-shadow: 0 0 0 rgba(63, 136, 197, 0.4);
+  box-shadow: 0 0 0 rgba(107, 176, 237, 0.4);
   animation: pulse-wildlife 2s ease-out infinite;
 }
 
 @keyframes pulse-wildlife {
   0% {
     transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(63, 136, 197, 0.45);
+    box-shadow: 0 0 0 0 rgba(107, 176, 237, 0.45);
   }
   70% {
     transform: scale(1);
-    box-shadow: 0 0 0 8px rgba(63, 136, 197, 0);
+    box-shadow: 0 0 0 8px rgba(107, 176, 237, 0);
   }
   100% {
     transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(63, 136, 197, 0);
+    box-shadow: 0 0 0 0 rgba(107, 176, 237, 0);
   }
 }
