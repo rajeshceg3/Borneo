@@ -230,6 +230,23 @@ describe('Frontend map and marker setup', () => {
     expect(cancelMock).toHaveBeenCalledTimes(2); // Should cancel when stopped
   });
 
+  it('registers the service worker successfully', async () => {
+    const { registerServiceWorker } = await import('./src/main.js');
+
+    const registerMock = vi.fn().mockResolvedValue({ scope: '/' });
+    vi.stubGlobal('navigator', {
+      serviceWorker: {
+        register: registerMock
+      }
+    });
+
+    const registration = await registerServiceWorker();
+
+    expect(registerMock).toHaveBeenCalledWith('/sw.js');
+    expect(registration).toEqual({ scope: '/' });
+    vi.unstubAllGlobals();
+  });
+
   it('binds swipe gestures to marker navigation and card close', async () => {
     const { bindMapGestures } = await import('./src/main.js');
 

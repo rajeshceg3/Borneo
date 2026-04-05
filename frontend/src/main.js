@@ -288,7 +288,23 @@ export const bindMapGestures = (
 
 const mapElement = typeof document !== 'undefined' ? document.getElementById('map') : null;
 
+export const registerServiceWorker = async () => {
+  if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator) {
+    try {
+      const registration = await navigator.serviceWorker.register('/sw.js');
+      console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      return registration;
+    } catch (err) {
+      console.error('ServiceWorker registration failed: ', err);
+      return null;
+    }
+  }
+  return null;
+};
+
 const init = async () => {
+  registerServiceWorker();
+
   if (mapElement) {
     const map = initializeMap();
     const cardController = createAttractionCardController();

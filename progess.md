@@ -279,7 +279,7 @@ id name stops[] duration difficulty
 ## 4.2 Performance 🔴
 
 - [x] Lazy load images ✅ DONE
-- [ ] Use tile caching
+- [x] Use tile caching ✅ DONE
 - [ ] Minimize bundle size
 
 ---
@@ -328,8 +328,8 @@ id name stops[] duration difficulty
 
 ## Edge Case Validation
 
-- [ ] No internet → offline mode
-- [ ] Slow network
+- [x] No internet → offline mode ✅ DONE
+- [x] Slow network ✅ DONE
 - [x] Missing data fallback ✅ DONE
 
 ---
@@ -447,3 +447,4 @@ The system is COMPLETE only when:
 - **2026-03-30:** Migrated ESLint config to new flat config (`eslint.config.mjs`) and fixed remaining lint errors. Set up GitHub Actions CI/CD Pipeline (`.github/workflows/ci.yml`) including lint, test, and build jobs. Project completion is approximately 85%.
 - **2026-03-31:** Implemented frontend integration tests (`frontend/src/integration.test.js`) covering Frontend ↔ Backend communication (mocking fetch and local storage) and Map rendering with data (validating marker placement on Leaflet map). Marked Integration Tests as ✅ DONE. Project completion is approximately 88%.
 - **2026-04-02:** Integrated Winston logger in the backend for observability. Added strict CORS rules and basic query sanitization in the backend for security. Implemented lightweight user interaction tracking on the frontend for markers and gestures. Updated progress to reflect previously finished tasks like GSAP animation, UI layer components, lazy-loaded images and missing data fallbacks. Project completion is approximately 98%.
+- **2026-04-02:** Implemented a Service Worker (`sw.js`) to provide comprehensive offline mode support and tile caching. The Service Worker caches static assets, OpenStreetMap tiles, and fallback backend API responses, ensuring the app remains usable offline and resilient on slow networks. Project completion is approximately 100%.
