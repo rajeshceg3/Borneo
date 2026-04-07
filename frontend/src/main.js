@@ -5,6 +5,7 @@ import { gsap } from 'gsap';
 import { bindGestureNavigation } from './gestureEngine';
 import { fetchAttractions, fetchWildlife } from './api';
 import { useStore } from './store';
+import { measurePerformance } from './performanceTracker';
 
 export const trackUserInteraction = (eventName, data = {}) => {
   // Lightweight mock tracking function
@@ -53,6 +54,8 @@ export const applyNightMode = () => {
 };
 
 export const initializeMap = (containerId = 'map') => {
+  const t0 = typeof performance !== 'undefined' ? performance.now() : 0;
+
   const map = L.map(containerId, {
     center: [4.5, 114],
     zoom: 6,
@@ -66,6 +69,7 @@ export const initializeMap = (containerId = 'map') => {
 
   applyNightMode();
 
+  if (t0 > 0) measurePerformance('Map Render', t0);
   return map;
 };
 
@@ -303,6 +307,7 @@ export const registerServiceWorker = async () => {
 };
 
 const init = async () => {
+  const t0 = typeof performance !== 'undefined' ? performance.now() : 0;
   registerServiceWorker();
 
   if (mapElement) {
@@ -352,6 +357,8 @@ const init = async () => {
       });
     }
   }
+
+  if (t0 > 0) measurePerformance('App Load', t0);
 };
 
 init();

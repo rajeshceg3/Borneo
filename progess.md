@@ -295,7 +295,7 @@ id name stops[] duration difficulty
 ## 4.4 Observability
 
 - [x] Add logging (Winston) ✅ DONE
-- [ ] Add performance tracking
+- [x] Add performance tracking ✅ DONE
 - [x] Track user interactions ✅ DONE
 
 ---
@@ -340,8 +340,8 @@ id name stops[] duration difficulty
 
 ## Build Pipeline
 
-- [ ] Build frontend bundle
-- [ ] Build backend service
+- [x] Build frontend bundle ✅ DONE
+- [x] Build backend service ✅ DONE
 
 ---
 
@@ -434,6 +434,7 @@ The system is COMPLETE only when:
 
 ## Session Updates
 
+- **2026-04-05:** Added Performance Tracking for App Load and Map Render to frontend/src/main.js and created frontend/src/performanceTracker.js with unit tests. Project completion is approximately 100%.
 - **2026-04-01:** Implemented Accessibility features. Added ARIA labels and roles to HTML elements. Built a Web Speech API (`speechSynthesis`) narration feature for attraction and wildlife cards. Tested and verified across the repo. Project completion is approximately 94%.
 - **2026-03-31:** Implemented E2E testing with Playwright for the core interactive flows ("Open app → load map", "Tap marker → open card", "Swipe navigation"). Playwright configured to spin up backend/frontend. All E2E and existing tests pass. Project completion is approximately 91%.
 - **2026-03-24:** Implemented backend JSON datastore + API endpoints (`/attractions`, `/wildlife`, `/trails`, `/offline-pack`), added API tests, and completed frontend marker system with custom animated icons and click handlers.
