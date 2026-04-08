@@ -280,22 +280,22 @@ id name stops[] duration difficulty
 
 - [x] Lazy load images ✅ DONE
 - [x] Use tile caching ✅ DONE
-- [x] Minimize bundle size
+- [x] Minimize bundle size ✅ DONE
 
 ---
 
 ## 4.3 Accessibility
 
-- [x] Add ARIA labels
-- [x] Ensure contrast ratios
-- [x] Add voice narration hooks
+- [x] Add ARIA labels ✅ DONE
+- [x] Ensure contrast ratios ✅ DONE
+- [x] Add voice narration hooks ✅ DONE
 
 ---
 
 ## 4.4 Observability
 
 - [x] Add logging (Winston) ✅ DONE
-- [ ] Add performance tracking
+- [x] Add performance tracking ✅ DONE
 - [x] Track user interactions ✅ DONE
 
 ---
@@ -449,3 +449,4 @@ The system is COMPLETE only when:
 - **2026-04-02:** Integrated Winston logger in the backend for observability. Added strict CORS rules and basic query sanitization in the backend for security. Implemented lightweight user interaction tracking on the frontend for markers and gestures. Updated progress to reflect previously finished tasks like GSAP animation, UI layer components, lazy-loaded images and missing data fallbacks. Project completion is approximately 98%.
 - **2026-04-02:** Implemented a Service Worker (`sw.js`) to provide comprehensive offline mode support and tile caching. The Service Worker caches static assets, OpenStreetMap tiles, and fallback backend API responses, ensuring the app remains usable offline and resilient on slow networks. Project completion is approximately 100%.
 - **2026-04-05:** Improved CSS contrast ratios for better accessibility by adjusting accent, water, and text colors. Optimized frontend Vite build by adding esbuild minification and chunk splitting for dependencies (Leaflet, GSAP, Zustand) to minimize bundle size. Ran and verified all E2E, frontend and backend tests. Project completion is approximately 100%.
+- **2026-04-06:** Implemented frontend performance tracking (`frontend/src/performanceTracking.js`) to measure app load time and map rendering time using the Performance API. Added corresponding tests (`frontend/src/performanceTracking.test.js`) and verified integration in `main.js`. Marked the performance tracking observability task as completed. All tests run and pass successfully. Project completion remains approximately 100%.

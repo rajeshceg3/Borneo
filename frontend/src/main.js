@@ -5,6 +5,7 @@ import { gsap } from 'gsap';
 import { bindGestureNavigation } from './gestureEngine';
 import { fetchAttractions, fetchWildlife } from './api';
 import { useStore } from './store';
+import { measureAppLoad, measureMapRender } from './performanceTracking.js';
 
 export const trackUserInteraction = (eventName, data = {}) => {
   // Lightweight mock tracking function
@@ -306,7 +307,9 @@ const init = async () => {
   registerServiceWorker();
 
   if (mapElement) {
+    measureAppLoad();
     const map = initializeMap();
+    measureMapRender(map);
     const cardController = createAttractionCardController();
     const store = useStore.getState();
 
