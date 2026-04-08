@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test": "npm run test --prefix backend && npm run test --prefix frontend",
+    "build": "npm run build --prefix frontend",
     "prepare": "husky"
   },
   "repository": {

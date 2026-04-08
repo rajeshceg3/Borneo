@@ -45,3 +45,30 @@ jobs:
 
     - name: Build frontend
       run: npm run build --prefix frontend
+
+  deploy-staging:
+    needs: build-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Deploy to Staging (Placeholder)
+      run: echo "Deploying to Vercel/Render Staging environment..."
+
+  deploy-production:
+    needs: build-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Deploy to Production (Placeholder)
+      run: echo "Deploying to Vercel/Render Production environment..."
+
+  rollback:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    steps:
+    - name: Rollback to previous deployment (Placeholder)
+      run: echo "Initiating rollback procedure via CI/CD..."
