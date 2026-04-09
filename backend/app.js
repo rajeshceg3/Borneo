@@ -4,6 +4,7 @@ const archiver = require('archiver');
 const path = require('path');
 const winston = require('winston');
 const expressWinston = require('express-winston');
+const promBundle = require('express-prometheus-middleware');
 
 const attractions = require('./data/attractions.json');
 const wildlife = require('./data/wildlife.json');
@@ -16,6 +17,16 @@ app.use(cors({
   allowedHeaders: ['Content-Type']
 }));
 app.use(express.json());
+
+app.use(promBundle({
+  includeMethod: true,
+  includePath: true,
+  includeStatusCode: true,
+  includeUp: true,
+  promClient: {
+    collectDefaultMetrics: {}
+  }
+}));
 
 // Basic query sanitization middleware
 app.use((req, res, next) => {
