@@ -32,7 +32,7 @@ jobs:
       run: npm ci
 
     - name: Install backend dependencies
-      run: npm ci --prefix backend
+      run: npm ci --legacy-peer-deps --prefix backend
 
     - name: Install frontend dependencies
       run: npm ci --prefix frontend
