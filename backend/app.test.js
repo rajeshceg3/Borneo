@@ -8,6 +8,12 @@ describe('Borneo API', () => {
     expect(res.body).toHaveProperty('message', 'Borneo API is running');
   });
 
+  it('GET /metrics should return prometheus metrics', async () => {
+    const res = await request(app).get('/metrics');
+    expect(res.statusCode).toEqual(200);
+    expect(res.text).toContain('http_requests_total');
+  });
+
   it('GET /attractions should return attraction data', async () => {
     const res = await request(app).get('/attractions');
     expect(res.statusCode).toEqual(200);
