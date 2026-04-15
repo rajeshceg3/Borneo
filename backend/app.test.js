@@ -44,4 +44,10 @@ describe('Borneo API', () => {
     expect(res.headers['content-type']).toBe('application/zip');
     expect(res.headers['content-disposition']).toContain('attachment; filename=borneo-offline-pack.zip');
   });
+
+  it('GET /metrics should return prometheus metrics', async () => {
+    const res = await request(app).get('/metrics');
+    expect(res.statusCode).toEqual(200);
+    expect(res.text).toContain('http_requests_total');
+  });
 });
