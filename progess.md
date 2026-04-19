@@ -242,15 +242,15 @@ id name stops[] duration difficulty
 
 ### Hosting
 
-- [ ] Frontend → Vercel / Netlify
-- [ ] Backend → AWS / Render
+- [x] Frontend → Vercel / Netlify
+- [x] Backend → AWS / Render
 
 ---
 
 ### CDN
 
 - [ ] Configure Cloudflare
-- [ ] Cache static assets
+- [x] Cache static assets
 
 ---
 
@@ -450,3 +450,4 @@ The system is COMPLETE only when:
 - **2026-04-02:** Implemented a Service Worker (`sw.js`) to provide comprehensive offline mode support and tile caching. The Service Worker caches static assets, OpenStreetMap tiles, and fallback backend API responses, ensuring the app remains usable offline and resilient on slow networks. Project completion is approximately 100%.
 - **2026-04-05:** Improved CSS contrast ratios for better accessibility by adjusting accent, water, and text colors. Optimized frontend Vite build by adding esbuild minification and chunk splitting for dependencies (Leaflet, GSAP, Zustand) to minimize bundle size. Ran and verified all E2E, frontend and backend tests. Project completion is approximately 100%.
 - **2026-04-06:** Implemented frontend performance tracking (`frontend/src/performanceTracking.js`) to measure app load time and map rendering time using the Performance API. Added corresponding tests (`frontend/src/performanceTracking.test.js`) and verified integration in `main.js`. Marked the performance tracking observability task as completed. All tests run and pass successfully. Project completion remains approximately 100%.
+- **2026-04-19:** Configured Frontend Hosting (Vercel) and Static Caching (`Cache-Control` headers) in `vercel.json`. Configured Backend Hosting (Render) by creating `render.yaml`. Verified all E2E, frontend and backend tests run and pass. Project completion is approximately 79%.
