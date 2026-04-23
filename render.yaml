@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: borneo-backend
+    env: node
+    buildCommand: npm install && npm install --prefix backend --legacy-peer-deps
+    startCommand: npm start --prefix backend
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
