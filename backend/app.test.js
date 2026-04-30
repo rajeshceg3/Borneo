@@ -44,4 +44,11 @@ describe('Borneo API', () => {
     expect(res.headers['content-type']).toBe('application/zip');
     expect(res.headers['content-disposition']).toContain('attachment; filename=borneo-offline-pack.zip');
   });
+
+  it('Operational runbooks should exist', () => {
+    const fs = require('fs');
+    const path = require('path');
+    const runbookPath = path.join(__dirname, '../docs/runbooks.md');
+    expect(fs.existsSync(runbookPath)).toBe(true);
+  });
 });
