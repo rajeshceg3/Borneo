@@ -1,0 +1,50 @@
+name: Rollback Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_ref:
+        description: 'Git commit SHA or tag to rollback to'
+        required: true
+        type: string
+      environment:
+        description: 'Environment to rollback'
+        required: true
+        type: choice
+        options:
+          - production
+          - staging
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.target_ref }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'npm'
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Install backend dependencies
+        run: npm ci --prefix backend
+
+      - name: Install frontend dependencies
+        run: npm ci --prefix frontend
+
+      - name: Build frontend
+        run: npm run build --prefix frontend
+
+      - name: Deploy to ${{ inputs.environment }}
+        run: |
+          echo "Simulating rollback deployment to ${{ inputs.environment }} for ref ${{ inputs.target_ref }}"
+          # Replace with actual deployment scripts (e.g., Vercel CLI, AWS CLI)
+          # vercel --token ${{ secrets.VERCEL_TOKEN }} --prod
