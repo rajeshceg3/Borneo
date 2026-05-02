@@ -1,0 +1,67 @@
+name: Rollback Pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_commit:
+        description: 'Commit SHA to rollback to'
+        required: true
+        type: string
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch all history so we can checkout the specific commit
+
+      - name: Validate Target Commit
+        run: |
+          if ! git cat-file -e ${{ inputs.target_commit }}^{commit}; then
+            echo "Error: Commit ${{ inputs.target_commit }} does not exist."
+            exit 1
+          fi
+
+      - name: Revert to Target Commit
+        run: |
+          # Reset hard to the specified commit to completely discard later changes
+          git reset --hard ${{ inputs.target_commit }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: |
+          npm ci
+          npm ci --prefix backend
+          npm ci --prefix frontend
+
+      - name: Build and Test Rollback Version
+        run: |
+          npm run test
+          npm run build --prefix frontend
+
+      - name: Commit and Push Rollback
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Get current branch
+          current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+          if [ "$current_branch" != "main" ] && [ "$current_branch" != "develop" ]; then
+             echo "Rollback usually targets main or develop. Please be careful."
+          fi
+
+          # We are currently at target_commit due to the hard reset earlier.
+          # We do a soft reset to origin/main, which leaves our working directory
+          # exactly as it is in target_commit, but sets HEAD to main so we can
+          # commit the difference as a rollback commit.
+          git reset --soft origin/main
+          git commit -m "Rollback to commit ${{ inputs.target_commit }}"
+          git push origin HEAD:main
