@@ -1,0 +1,42 @@
+name: Rollback Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_commit:
+        description: 'Target commit SHA to rollback to'
+        required: true
+        type: string
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Git User
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Perform Rollback
+        run: |
+          # Ensure we are on the correct branch (main by default for production rollbacks)
+          git checkout main
+
+          # We want to revert all changes since the target commit.
+          # Create a single commit that reverts the changes without modifying history.
+          # We'll use git revert with the range of commits.
+          # The notation ^..HEAD means "everything from (but not including) target_commit up to HEAD"
+          # Since we want to undo them, we might revert them.
+          # An easier way to make the working tree exactly like target_commit and commit it:
+
+          git read-tree -um @ ${{ github.event.inputs.target_commit }}
+
+          git commit -m "Rollback to commit ${{ github.event.inputs.target_commit }}"
+
+          # Push the rollback commit
+          git push origin main
