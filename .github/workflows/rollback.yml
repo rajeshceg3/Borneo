@@ -1,0 +1,44 @@
+name: Rollback Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_hash:
+        description: 'Commit hash to rollback to'
+        required: true
+        type: string
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Need full history for read-tree
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Rollback to specific commit
+        run: |
+          TARGET_COMMIT="${{ github.event.inputs.commit_hash }}"
+
+          # Verify commit exists
+          if ! git cat-file -e $TARGET_COMMIT^{commit}; then
+            echo "Error: Commit $TARGET_COMMIT does not exist."
+            exit 1
+          fi
+
+          echo "Rolling back to $TARGET_COMMIT..."
+
+          # Use read-tree to reset the index to the target commit
+          git read-tree -um HEAD $TARGET_COMMIT
+
+          # Commit the changes to create a revert commit
+          git commit -m "chore: rollback to commit $TARGET_COMMIT"
+
+          # Push the new commit
+          git push origin HEAD
