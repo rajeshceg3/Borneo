@@ -1,0 +1,44 @@
+name: Rollback Strategy
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: 'The commit SHA to rollback to'
+        required: true
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Perform Rollback
+        run: |
+          # The GitHub Actions rollback workflow implements rollbacks by using git read-tree
+          # to revert the tree to a target commit state and creating a new commit to avoid
+          # destructively rewriting git history.
+          TARGET_SHA=${{ github.event.inputs.commit_sha }}
+
+          # Verify the commit exists
+          if ! git rev-parse --verify $TARGET_SHA^{commit} > /dev/null 2>&1; then
+            echo "Error: Commit $TARGET_SHA not found."
+            exit 1
+          fi
+
+          # Reset working tree and index to the target commit state
+          git read-tree -um HEAD $TARGET_SHA
+
+          # Create a new commit with the rollback state
+          git commit -m "Rollback to commit $TARGET_SHA"
+
+          # Push the new commit
+          git push origin HEAD
