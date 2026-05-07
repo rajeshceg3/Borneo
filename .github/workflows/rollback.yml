@@ -1,0 +1,40 @@
+name: Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: 'The commit SHA to rollback to'
+        required: true
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Git Identity
+        run: |
+          git config --global user.name "GitHub Action Bot"
+          git config --global user.email "action@github.com"
+
+      - name: Perform Rollback
+        run: |
+          TARGET_SHA="${{ github.event.inputs.commit_sha }}"
+
+          echo "Rolling back to commit: $TARGET_SHA"
+
+          # Verify the commit exists
+          git cat-file -t $TARGET_SHA || (echo "Commit not found" && exit 1)
+
+          # Use git read-tree to revert the working tree to the target commit state
+          # This creates a new commit reflecting the old state, preserving history
+          git read-tree -um HEAD $TARGET_SHA
+
+          git commit -m "Rollback to $TARGET_SHA"
+
+          # Push the detached HEAD to the target branch (e.g. main)
+          git push origin HEAD:${{ github.ref_name }}
