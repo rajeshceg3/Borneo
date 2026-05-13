@@ -1,0 +1,36 @@
+name: Rollback Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: 'The commit SHA to rollback to'
+        required: true
+        type: string
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch all history for rollback
+
+      - name: Configure Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Revert tree state to target commit
+        env:
+          COMMIT_SHA: ${{ inputs.commit_sha }}
+        run: |
+          echo "Reverting tree to commit $COMMIT_SHA"
+          git read-tree -um HEAD $COMMIT_SHA
+          git commit -m "Rollback to $COMMIT_SHA"
+
+      - name: Push rollback commit
+        run: |
+          # Push the detached HEAD to the current branch to avoid rewriting history
+          git push origin HEAD:${{ github.ref_name }}
