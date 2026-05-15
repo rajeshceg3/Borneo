@@ -1,0 +1,44 @@
+name: Rollback Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_commit:
+        description: 'The commit SHA to rollback to (the known good state)'
+        required: true
+      branch_name:
+        description: 'The branch to apply the rollback to (e.g., main, develop)'
+        required: true
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Apply Rollback
+        env:
+          TARGET_COMMIT: ${{ inputs.target_commit }}
+          BRANCH_NAME: ${{ inputs.branch_name }}
+        run: |
+          echo "Rolling back branch $BRANCH_NAME to commit $TARGET_COMMIT"
+
+          # Checkout the target branch
+          git checkout $BRANCH_NAME
+
+          # Use git read-tree to revert the working tree to the target commit state
+          git read-tree -u --reset $TARGET_COMMIT
+
+          # Commit the rollback state
+          git commit -m "Rollback to commit $TARGET_COMMIT"
+
+          # Push the changes. Using HEAD:branch to push directly.
+          git push origin HEAD:$BRANCH_NAME
