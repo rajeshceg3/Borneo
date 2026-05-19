@@ -1,0 +1,44 @@
+name: Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_commit:
+        description: 'The commit SHA to rollback to'
+        required: true
+        type: string
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch all history for all tags and branches
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Perform Rollback
+        env:
+          TARGET_COMMIT: ${{ inputs.target_commit }}
+        run: |
+          # Verify the target commit exists
+          if ! git cat-file -e "${TARGET_COMMIT}^{commit}"; then
+            echo "Error: Commit $TARGET_COMMIT not found."
+            exit 1
+          fi
+
+          echo "Rolling back to commit: $TARGET_COMMIT"
+
+          # Read the tree of the target commit
+          git read-tree -u --reset $TARGET_COMMIT
+
+          # Create a new commit with the state of the target commit
+          git commit -m "Rollback to $TARGET_COMMIT"
+
+          # Push the new commit
+          git push origin HEAD:${{ github.ref_name }}
