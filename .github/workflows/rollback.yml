@@ -1,0 +1,27 @@
+name: Rollback Strategy
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: 'The commit SHA to rollback to'
+        required: true
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Perform Rollback
+        env:
+          TARGET_COMMIT: ${{ inputs.commit_sha }}
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git read-tree -um HEAD $TARGET_COMMIT
+          git commit -m "Rollback to $TARGET_COMMIT"
+          git push origin HEAD:${{ github.ref_name }}
