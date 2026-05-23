@@ -1,0 +1,44 @@
+name: Rollback Pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_commit:
+        description: 'The commit hash to rollback to'
+        required: true
+        type: string
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+
+      - name: Perform Rollback
+        env:
+          TARGET_COMMIT: ${{ inputs.target_commit }}
+        run: |
+          # Verify commit exists
+          if ! git rev-parse --verify "${TARGET_COMMIT}^{commit}" >/dev/null 2>&1; then
+            echo "Error: Commit ${TARGET_COMMIT} does not exist."
+            exit 1
+          fi
+
+          echo "Rolling back to commit ${TARGET_COMMIT}..."
+
+          # Revert the tree to the target commit state
+          git read-tree -um HEAD "${TARGET_COMMIT}"
+
+          # Create a new commit with the state of the target commit
+          git commit -m "Rollback to commit ${TARGET_COMMIT}"
+
+          # Push the detached HEAD to the current branch safely
+          git push origin HEAD:${{ github.ref_name }}
