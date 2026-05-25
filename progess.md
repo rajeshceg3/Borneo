@@ -242,7 +242,7 @@ id name stops[] duration difficulty
 
 ### Hosting
 
-- [ ] Frontend → Vercel / Netlify
+- [x] Frontend → Vercel / Netlify ✅ DONE
 - [ ] Backend → AWS / Render
 
 ---
@@ -250,7 +250,7 @@ id name stops[] duration difficulty
 ### CDN
 
 - [ ] Configure Cloudflare
-- [ ] Cache static assets
+- [x] Cache static assets ✅ DONE
 
 ---
 
@@ -355,8 +355,8 @@ id name stops[] duration difficulty
 
 ## Rollback Strategy 🔴
 
-- [ ] Maintain previous builds
-- [ ] Enable instant rollback via CI/CD
+- [x] Maintain previous builds ✅ DONE
+- [x] Enable instant rollback via CI/CD ✅ DONE
 
 ---
 
@@ -385,9 +385,9 @@ id name stops[] duration difficulty
 
 ## Operational Runbooks 🔴
 
-- [ ] Incident response steps
-- [ ] Recovery procedures
-- [ ] Offline mode fallback guide
+- [x] Incident response steps ✅ DONE
+- [x] Recovery procedures ✅ DONE
+- [x] Offline mode fallback guide ✅ DONE
 
 ---
 
@@ -450,3 +450,4 @@ The system is COMPLETE only when:
 - **2026-04-02:** Implemented a Service Worker (`sw.js`) to provide comprehensive offline mode support and tile caching. The Service Worker caches static assets, OpenStreetMap tiles, and fallback backend API responses, ensuring the app remains usable offline and resilient on slow networks. Project completion is approximately 100%.
 - **2026-04-05:** Improved CSS contrast ratios for better accessibility by adjusting accent, water, and text colors. Optimized frontend Vite build by adding esbuild minification and chunk splitting for dependencies (Leaflet, GSAP, Zustand) to minimize bundle size. Ran and verified all E2E, frontend and backend tests. Project completion is approximately 100%.
 - **2026-04-06:** Implemented frontend performance tracking (`frontend/src/performanceTracking.js`) to measure app load time and map rendering time using the Performance API. Added corresponding tests (`frontend/src/performanceTracking.test.js`) and verified integration in `main.js`. Marked the performance tracking observability task as completed. All tests run and pass successfully. Project completion remains approximately 100%.
+- **2026-05-25:** Implemented Vercel deployment caching via `vercel.json`, added instant rollback capability using GitHub Actions (`.github/workflows/rollback.yml`), and created operational runbooks in `docs/runbooks.md` with accompanying tests in `backend/ops.test.js`. Project completion is approximately 83%.
