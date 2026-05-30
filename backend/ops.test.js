@@ -40,7 +40,7 @@ describe('Operational Readiness Tests', () => {
         rollbackContent = fs.readFileSync(rollbackPath, 'utf8');
         try {
           rollbackConfig = yaml.load(rollbackContent);
-        } catch (e) {
+        } catch {
           // Keep rollbackConfig undefined if parse fails
         }
       }
