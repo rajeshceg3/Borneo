@@ -26,7 +26,7 @@ describe('Operational Readiness Tests', () => {
     try {
       workflow = yaml.load(workflowContent);
     } catch (e) {
-      fail(`Failed to parse rollback.yml: ${e.message}`);
+      throw new Error(`Failed to parse rollback.yml: ${e.message}`, { cause: e });
     }
 
     // Basic structure validation
