@@ -355,8 +355,8 @@ id name stops[] duration difficulty
 
 ## Rollback Strategy 🔴
 
-- [ ] Maintain previous builds
-- [ ] Enable instant rollback via CI/CD
+- [x] Maintain previous builds
+- [x] Enable instant rollback via CI/CD
 
 ---
 
@@ -385,9 +385,9 @@ id name stops[] duration difficulty
 
 ## Operational Runbooks 🔴
 
-- [ ] Incident response steps
-- [ ] Recovery procedures
-- [ ] Offline mode fallback guide
+- [x] Incident response steps
+- [x] Recovery procedures
+- [x] Offline mode fallback guide
 
 ---
 
