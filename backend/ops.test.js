@@ -47,7 +47,7 @@ describe('Operational Readiness Tests', () => {
       expect(jobs).toBeDefined();
 
       let rollbackJob = null;
-      for (const [key, job] of Object.entries(jobs)) {
+      for (const job of Object.values(jobs)) {
         if (job.steps) {
           rollbackJob = job;
           break;
