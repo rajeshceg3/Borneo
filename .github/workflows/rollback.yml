@@ -1,0 +1,37 @@
+name: Rollback Pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: 'Commit SHA to rollback to'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Perform rollback
+        env:
+          TARGET_SHA: ${{ inputs.commit_sha }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Use git read-tree to revert to the target commit state
+          git read-tree -um HEAD $TARGET_SHA
+
+          # Create a new commit
+          git commit -m "Rollback to commit $TARGET_SHA"
+
+          # Push the rollback commit
+          git push origin HEAD:${{ github.ref_name }}
