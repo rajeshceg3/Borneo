@@ -355,8 +355,8 @@ id name stops[] duration difficulty
 
 ## Rollback Strategy 🔴
 
-- [ ] Maintain previous builds
-- [ ] Enable instant rollback via CI/CD
+- [x] Maintain previous builds ✅ DONE
+- [x] Enable instant rollback via CI/CD ✅ DONE
 
 ---
 
@@ -385,9 +385,9 @@ id name stops[] duration difficulty
 
 ## Operational Runbooks 🔴
 
-- [ ] Incident response steps
-- [ ] Recovery procedures
-- [ ] Offline mode fallback guide
+- [x] Incident response steps ✅ DONE
+- [x] Recovery procedures ✅ DONE
+- [x] Offline mode fallback guide ✅ DONE
 
 ---
 
@@ -433,6 +433,7 @@ The system is COMPLETE only when:
 ---
 
 ## Session Updates
+- **2026-06-10:** Created Operational Runbooks (`docs/runbooks.md`) containing incident response, recovery procedures, and an offline mode fallback guide. Implemented a CI/CD rollback workflow (`.github/workflows/rollback.yml`) supporting instant rollbacks via `git read-tree`. Added operational readiness tests to the backend to validate documentation and workflow configuration. Project completion is approximately 81%.
 
 - **2026-04-01:** Implemented Accessibility features. Added ARIA labels and roles to HTML elements. Built a Web Speech API (`speechSynthesis`) narration feature for attraction and wildlife cards. Tested and verified across the repo. Project completion is approximately 94%.
 - **2026-03-31:** Implemented E2E testing with Playwright for the core interactive flows ("Open app → load map", "Tap marker → open card", "Swipe navigation"). Playwright configured to spin up backend/frontend. All E2E and existing tests pass. Project completion is approximately 91%.
