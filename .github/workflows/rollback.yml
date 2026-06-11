@@ -1,0 +1,37 @@
+name: Rollback Pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_commit:
+        description: 'The commit hash to rollback to'
+        required: true
+        type: string
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Perform Rollback
+        env:
+          TARGET_COMMIT: ${{ inputs.target_commit }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Use git read-tree to revert to the target commit state
+          git read-tree -um HEAD $TARGET_COMMIT
+
+          # Commit the rollback
+          git commit -m "Rollback to $TARGET_COMMIT"
+
+          # Push the detached HEAD to the current branch
+          git push origin HEAD:${{ github.ref_name }}
