@@ -1,0 +1,39 @@
+name: CI/CD Rollback Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_commit:
+        description: 'The commit hash to rollback to'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Revert tree to target commit
+        env:
+          TARGET_COMMIT: ${{ inputs.target_commit }}
+        run: |
+          # Use git read-tree to update the index to match the target commit
+          git read-tree -um HEAD $TARGET_COMMIT
+
+          # Commit the changes to create the rollback commit
+          git commit -m "Rollback to commit $TARGET_COMMIT"
+
+          # Push the new commit
+          git push origin HEAD:${{ github.ref_name }}
