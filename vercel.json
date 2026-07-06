@@ -1,11 +1,22 @@
 {
-  "installCommand": "npm install && npm install --prefix frontend",
+  "installCommand": "npm install && npm ci --prefix frontend --legacy-peer-deps",
   "buildCommand": "npm run build --prefix frontend",
   "outputDirectory": "frontend/dist",
   "rewrites": [
     {
       "source": "/(.*)",
       "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     }
   ]
 }
