@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">Gunung Mulu National Park illustration</title>
+  <desc id="desc">A stylized Borneo karst landscape with limestone pinnacles, rainforest canopy, and a large cave mouth.</desc>
+  <defs><linearGradient id="sky" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#cddfd6"/><stop offset="1" stop-color="#102f26"/></linearGradient><symbol id="leaf" viewBox="0 0 40 18"><ellipse cx="20" cy="9" rx="19" ry="8" fill="currentColor" opacity="0.72"/></symbol></defs>
+  <rect width="1200" height="700" fill="url(#sky)"/><circle cx="902" cy="116" r="70" fill="#eadfaa" opacity="0.58"/>
+  <g fill="#5e6253"><path d="M76 398 185 155l132 247Z"/><path d="M318 409 440 170l120 242Z"/><path d="M542 408 676 135l142 274Z"/><path d="M850 423 980 180l142 244Z"/></g>
+  <path d="M0 392 198 310 384 441 653 286 871 454 1064 315 1200 419v281H0Z" fill="#10472f" opacity="0.88"/>
+  <g color="#447d50" opacity="0.5"><use href="#leaf" x="34" y="292" width="76" height="34"/><use href="#leaf" x="150" y="285" width="90" height="39"/><use href="#leaf" x="395" y="398" width="80" height="36"/><use href="#leaf" x="668" y="294" width="112" height="48"/><use href="#leaf" x="975" y="396" width="90" height="40"/><use href="#leaf" x="1088" y="267" width="92" height="39"/></g>
+  <ellipse cx="566" cy="535" rx="230" ry="155" fill="#071513" opacity="0.96"/><ellipse cx="566" cy="564" rx="150" ry="108" fill="#030a0a"/>
+  <g fill="#8a896f" opacity="0.85"><path d="M398 505 421 386l18 119Z"/><path d="M453 505 476 386l18 119Z"/><path d="M513 505 536 382l18 123Z"/><path d="M598 505 620 384l28 121Z"/><path d="M668 505 691 386l18 119Z"/></g>
+  <path d="M0 622c138-48 232 28 352-18 110-42 206 25 316-14 120-43 228 33 358-12 78-27 120-10 174-4v126H0Z" fill="#17663d"/>
+  <g fill="#8a896f" opacity="0.67"><path d="M454 700 491 570l36 130Z"/><path d="M540 700 576 570l39 130Z"/><path d="M655 700 686 570l40 130Z"/></g>
+</svg>
