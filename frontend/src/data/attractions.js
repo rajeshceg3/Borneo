@@ -7,7 +7,7 @@ export const attractions = [
     description:
       'A protected lowland rainforest with old-growth canopy, rare mammals, and immersive canopy walk experiences.',
     images: [
-      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=70'
+      '/assets/danum-valley.svg'
     ]
   },
   {
@@ -18,7 +18,7 @@ export const attractions = [
     description:
       'Borneo\'s most iconic river corridor for wildlife sightings, including proboscis monkeys and hornbills.',
     images: [
-      'https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=1200&q=70'
+      '/assets/kinabatangan-river.svg'
     ]
   },
   {
@@ -29,7 +29,7 @@ export const attractions = [
     description:
       'UNESCO-listed karst landscapes known for massive cave chambers, limestone pinnacles, and rainforest trails.',
     images: [
-      'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=70'
+      '/assets/gunung-mulu.svg'
     ]
   }
 ];

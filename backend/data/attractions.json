@@ -4,7 +4,7 @@
     "name": "Danum Valley",
     "coordinates": [4.9667, 117.8],
     "description": "Pristine ancient rainforest known for remarkable biodiversity.",
-    "images": ["/assets/danum-valley.jpg"],
+    "images": ["/assets/danum-valley.svg"],
     "type": "forest"
   },
   {
@@ -12,7 +12,7 @@
     "name": "Kinabatangan River",
     "coordinates": [5.5, 118.3],
     "description": "One of the best wildlife spotting corridors in Borneo.",
-    "images": ["/assets/kinabatangan-river.jpg"],
+    "images": ["/assets/kinabatangan-river.svg"],
     "type": "river"
   },
   {
@@ -20,7 +20,7 @@
     "name": "Gunung Mulu National Park",
     "coordinates": [4.05, 114.8],
     "description": "UNESCO-listed cave systems and dramatic karst landscapes.",
-    "images": ["/assets/gunung-mulu.jpg"],
+    "images": ["/assets/gunung-mulu.svg"],
     "type": "cave"
   }
 ]

@@ -5,7 +5,10 @@ const PRECACHE_ASSETS = [
   '/index.html',
   '/favicon.svg',
   '/icons.svg',
-  '/style.css'
+  '/style.css',
+  '/assets/danum-valley.svg',
+  '/assets/kinabatangan-river.svg',
+  '/assets/gunung-mulu.svg'
 ];
 
 self.addEventListener('install', (event) => {
