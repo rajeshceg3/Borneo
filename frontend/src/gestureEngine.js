@@ -29,16 +29,28 @@ export const detectSwipeDirection = (
   return deltaX < 0 ? 'swipeLeft' : 'swipeRight';
 };
 
-export const bindGestureNavigation = (element, handlers = {}) => {
+export const bindGestureNavigation = (element, handlers = {}, options = {}) => {
   if (!element || typeof element.addEventListener !== 'function') {
     return () => {};
   }
+
+  // Scene/navigation separation: gestures that begin inside an excluded
+  // surface (e.g. the map, which owns drag-to-explore) never trigger
+  // chapter navigation.
+  const exclude = options.exclude ?? null;
+  const isExcluded = (target) =>
+    !!exclude && !!target && typeof exclude.contains === 'function' && exclude.contains(target);
 
   let touchStart = null;
 
   const onTouchStart = (event) => {
     const firstTouch = event.touches?.[0];
     if (!firstTouch) {
+      return;
+    }
+
+    if (isExcluded(event.target)) {
+      touchStart = null;
       return;
     }
 

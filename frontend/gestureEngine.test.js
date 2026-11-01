@@ -34,4 +34,30 @@ describe('gesture engine', () => {
 
     expect(element.removeEventListener).toHaveBeenCalledTimes(2);
   });
+
+  it('ignores gestures that begin inside the excluded scene surface', () => {
+    const listeners = {};
+    const element = {
+      addEventListener: vi.fn((name, handler) => {
+        listeners[name] = handler;
+      }),
+      removeEventListener: vi.fn()
+    };
+    const sceneTarget = { id: 'map-canvas' };
+    const exclude = { contains: (target) => target === sceneTarget };
+
+    const handlers = { swipeLeft: vi.fn() };
+    bindGestureNavigation(element, handlers, { exclude });
+
+    // Pan starting on the map: no chapter navigation
+    listeners.touchstart({ touches: [{ clientX: 100, clientY: 100 }], target: sceneTarget });
+    listeners.touchend({ changedTouches: [{ clientX: 10, clientY: 100 }], target: sceneTarget });
+    expect(handlers.swipeLeft).not.toHaveBeenCalled();
+
+    // Swipe starting outside the map: navigates
+    const chromeTarget = { id: 'card' };
+    listeners.touchstart({ touches: [{ clientX: 100, clientY: 100 }], target: chromeTarget });
+    listeners.touchend({ changedTouches: [{ clientX: 10, clientY: 100 }], target: chromeTarget });
+    expect(handlers.swipeLeft).toHaveBeenCalledTimes(1);
+  });
 });

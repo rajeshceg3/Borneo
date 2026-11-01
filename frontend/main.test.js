@@ -11,7 +11,8 @@ const mapFactory = vi.fn(() => ({
   id: 'map-instance',
   setView: vi.fn(),
   getZoom: vi.fn(() => 6),
-  closePopup: vi.fn()
+  closePopup: vi.fn(),
+  getContainer: vi.fn(() => ({ contains: () => false }))
 }));
 const divIconFactory = vi.fn(() => ({ id: 'icon-instance' }));
 
@@ -63,6 +64,8 @@ describe('Frontend map and marker setup', () => {
     global.document = {
       createElement: vi.fn(() => createMockElement()),
       getElementById: vi.fn(() => null),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
       body: {}
     };
   });

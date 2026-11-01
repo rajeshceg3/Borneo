@@ -264,13 +264,29 @@ export const bindMapGestures = (
     const location = locationData[normalizedIndex];
     const marker = markers[normalizedIndex];
 
-    map.setView(location.coordinates, map.getZoom(), { animate: true });
+    const reduceMotion = typeof window !== 'undefined'
+      && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    map.setView(location.coordinates, map.getZoom(), { animate: !reduceMotion });
     marker.bindPopup(`<strong>${location.name}</strong>`).openPopup();
     cardController?.open(location);
     activeIndex = normalizedIndex;
   };
 
-  return bindGestureNavigation(element, {
+  const onKeyDown = (event) => {
+    if (event.key === 'ArrowLeft') {
+      trackUserInteraction('Keyboard_Navigation', { direction: 'left' });
+      focusMarker(activeIndex - 1);
+    } else if (event.key === 'ArrowRight') {
+      trackUserInteraction('Keyboard_Navigation', { direction: 'right' });
+      focusMarker(activeIndex + 1);
+    } else if (event.key === 'Escape') {
+      map.closePopup();
+      cardController?.close();
+    }
+  };
+  document.addEventListener('keydown', onKeyDown);
+
+  const unbindTouch = bindGestureNavigation(element, {
     swipeLeft: () => {
       trackUserInteraction('Swipe_Navigation', { direction: 'left' });
       focusMarker(activeIndex + 1);
@@ -284,7 +300,12 @@ export const bindMapGestures = (
       map.closePopup();
       cardController?.close();
     }
-  });
+  }, { exclude: map.getContainer() });
+
+  return () => {
+    document.removeEventListener('keydown', onKeyDown);
+    unbindTouch();
+  };
 };
 
 const mapElement = typeof document !== 'undefined' ? document.getElementById('map') : null;
